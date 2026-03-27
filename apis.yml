@@ -1,0 +1,43 @@
+aid: agentgateway
+name: AgentGateway
+description: >-
+  AgentGateway (formerly Envoy AI Gateway) is a CNCF project
+  providing an AI-native gateway for routing, observing, and
+  governing traffic to and from AI agents and LLM providers.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - API Gateway
+  - AI Gateway
+  - LLM
+  - CNCF
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/apis.yml
+created: '2026-03-27'
+modified: '2026-03-27'
+specificationVersion: '0.19'
+apis:
+  - aid: agentgateway:agentgateway
+    name: AgentGateway
+    description: >-
+      AgentGateway provides AI-native gateway capabilities for
+      routing, observing, and governing AI agent and LLM traffic.
+    humanURL: https://agentgateway.dev/
+    tags:
+      - AI Gateway
+      - LLM
+    properties:
+      - type: Documentation
+        url: https://agentgateway.dev/docs/
+      - type: Getting Started
+        url: https://agentgateway.dev/docs/getting-started/
+common:
+  - type: Website
+    url: https://agentgateway.dev/
+  - type: Documentation
+    url: https://agentgateway.dev/docs/
+  - type: GitHub Organization
+    url: https://github.com/agentgateway
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
