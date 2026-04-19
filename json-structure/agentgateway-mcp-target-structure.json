@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/json-structure/agentgateway-mcp-target-structure.json",
+  "name": "MCPTarget",
+  "description": "Configuration for an MCP server target in AgentGateway, defining a connected MCP tool provider.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique name for this MCP target.",
+      "example": "filesystem-tools"
+    },
+    "type": {
+      "type": "string",
+      "description": "The connection type for this MCP target.",
+      "enum": [
+        "sse",
+        "stdio",
+        "http"
+      ],
+      "example": "http"
+    },
+    "url": {
+      "type": "uri",
+      "description": "URL of the MCP server endpoint.",
+      "example": "http://localhost:3001/mcp"
+    },
+    "authentication": {
+      "type": "object",
+      "description": "Authentication configuration for connecting to this MCP server.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "bearer",
+            "apikey",
+            "none"
+          ],
+          "example": "bearer"
+        },
+        "tokenRef": {
+          "type": "string",
+          "description": "Reference to the secret containing the authentication token.",
+          "example": "mcp-server-token"
+        }
+      }
+    },
+    "tools": {
+      "type": "array",
+      "description": "List of tool names exposed by this MCP target (empty means all tools are available).",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "read_file",
+        "write_file",
+        "list_directory"
+      ]
+    },
+    "allowedClients": {
+      "type": "array",
+      "description": "List of client identifiers permitted to use this MCP target.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "type"
+  ]
+}

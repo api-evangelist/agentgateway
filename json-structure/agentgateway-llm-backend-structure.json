@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/json-structure/agentgateway-llm-backend-structure.json",
+  "name": "LLMBackend",
+  "description": "Configuration for an LLM provider backend in AgentGateway, defining the target model, authentication, and routing parameters.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique name for this LLM backend.",
+      "example": "openai-gpt4"
+    },
+    "provider": {
+      "type": "string",
+      "description": "The LLM provider for this backend.",
+      "enum": [
+        "openai",
+        "anthropic",
+        "gemini",
+        "bedrock",
+        "azure-openai",
+        "ollama",
+        "vllm"
+      ],
+      "example": "openai"
+    },
+    "model": {
+      "type": "string",
+      "description": "The model identifier to use for requests.",
+      "example": "gpt-4o"
+    },
+    "alias": {
+      "type": "string",
+      "description": "Optional alias exposed to clients instead of the actual model name.",
+      "example": "primary-llm"
+    },
+    "baseUrl": {
+      "type": "uri",
+      "description": "Base URL for the LLM provider API endpoint.",
+      "example": "https://api.openai.com/v1"
+    },
+    "authentication": {
+      "type": "object",
+      "description": "Authentication configuration for this backend.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "bearer",
+            "apikey",
+            "basic"
+          ],
+          "example": "bearer"
+        },
+        "secretRef": {
+          "type": "string",
+          "description": "Reference to a secret containing the API key.",
+          "example": "openai-api-key"
+        }
+      }
+    },
+    "weight": {
+      "type": "int32",
+      "description": "Load balancing weight for this backend (higher means more traffic).",
+      "example": 100
+    },
+    "priority": {
+      "type": "int32",
+      "description": "Failover priority, lower values have higher priority.",
+      "example": 1
+    }
+  },
+  "required": [
+    "name",
+    "provider",
+    "model"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "openai-route",
+  "matches": [
+    {
+      "headers": [
+        { "name": "x-model-alias", "value": "primary-llm" }
+      ]
+    }
+  ],
+  "backend": "openai-gpt4o",
+  "rateLimit": {
+    "requestsPerSecond": 10,
+    "burstSize": 20
+  },
+  "retries": {
+    "attempts": 3,
+    "perTryTimeout": "30s"
+  }
+}

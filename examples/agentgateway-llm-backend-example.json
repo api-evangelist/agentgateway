@@ -1,0 +1,13 @@
+{
+  "name": "openai-gpt4o",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "alias": "primary-llm",
+  "baseUrl": "https://api.openai.com/v1",
+  "authentication": {
+    "type": "bearer",
+    "secretRef": "openai-api-key"
+  },
+  "weight": 100,
+  "priority": 1
+}

@@ -1,0 +1,11 @@
+{
+  "name": "filesystem-tools",
+  "type": "http",
+  "url": "http://localhost:3001/mcp",
+  "authentication": {
+    "type": "bearer",
+    "tokenRef": "mcp-server-token"
+  },
+  "tools": ["read_file", "write_file", "list_directory"],
+  "allowedClients": ["agent-01", "agent-02"]
+}

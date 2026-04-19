@@ -1,0 +1,104 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "agw": "https://agentgateway.dev/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "LLMBackend": "agw:LLMBackend",
+    "MCPTarget": "agw:MCPTarget",
+    "Route": "agw:Route",
+
+    "name": "schema:name",
+    "description": "schema:description",
+
+    "provider": {
+      "@id": "agw:provider",
+      "@type": "xsd:string"
+    },
+    "model": {
+      "@id": "agw:model",
+      "@type": "xsd:string"
+    },
+    "alias": {
+      "@id": "agw:alias",
+      "@type": "xsd:string"
+    },
+    "baseUrl": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "type": {
+      "@id": "agw:type",
+      "@type": "xsd:string"
+    },
+    "authentication": {
+      "@id": "agw:authentication",
+      "@type": "@id"
+    },
+    "secretRef": {
+      "@id": "agw:secret_ref",
+      "@type": "xsd:string"
+    },
+    "tokenRef": {
+      "@id": "agw:token_ref",
+      "@type": "xsd:string"
+    },
+    "weight": {
+      "@id": "agw:weight",
+      "@type": "xsd:integer"
+    },
+    "priority": {
+      "@id": "agw:priority",
+      "@type": "xsd:integer"
+    },
+    "tools": {
+      "@id": "agw:tools",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "allowedClients": {
+      "@id": "agw:allowed_clients",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "backend": {
+      "@id": "agw:backend",
+      "@type": "xsd:string"
+    },
+    "matches": {
+      "@id": "agw:matches",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "rateLimit": {
+      "@id": "agw:rate_limit",
+      "@type": "@id"
+    },
+    "retries": {
+      "@id": "agw:retries",
+      "@type": "@id"
+    },
+    "requestsPerSecond": {
+      "@id": "agw:requests_per_second",
+      "@type": "xsd:integer"
+    },
+    "burstSize": {
+      "@id": "agw:burst_size",
+      "@type": "xsd:integer"
+    },
+    "attempts": {
+      "@id": "agw:attempts",
+      "@type": "xsd:integer"
+    },
+    "perTryTimeout": {
+      "@id": "agw:per_try_timeout",
+      "@type": "xsd:string"
+    }
+  }
+}

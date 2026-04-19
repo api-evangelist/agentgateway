@@ -1,0 +1,236 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: AgentGateway
+  description: Vocabulary and taxonomy for AgentGateway, the AI-native proxy for routing LLM traffic, federating MCP tools, and governing agent-to-agent communication.
+  created: '2026-04-19'
+  modified: '2026-04-19'
+
+operational:
+  apis:
+    - name: AgentGateway
+      namespace: agentgateway
+      version: "1.0"
+      baseUrl: https://agentgateway.dev
+      status: active
+
+  resources:
+    - name: llm-backends
+      description: LLM provider configurations for routing AI model requests
+      actions:
+        - list
+        - create
+        - get
+        - update
+        - delete
+    - name: mcp-targets
+      description: MCP server targets for tool federation
+      actions:
+        - list
+        - create
+        - get
+        - update
+        - delete
+    - name: routes
+      description: Traffic routing rules for matching and forwarding requests
+      actions:
+        - list
+        - create
+        - get
+        - update
+        - delete
+    - name: guardrails
+      description: Content filtering and prompt guard policies
+      actions:
+        - list
+        - create
+        - get
+        - update
+        - delete
+    - name: metrics
+      description: Observability data including request rates, latency, and cost metrics
+      actions:
+        - get
+        - query
+    - name: sessions
+      description: Stateful MCP sessions maintained across agent interactions
+      actions:
+        - create
+        - get
+        - terminate
+
+  actions:
+    - name: list
+      description: Retrieve a list of configured resources
+      httpMethod: GET
+      pattern: read
+    - name: create
+      description: Create a new resource configuration
+      httpMethod: POST
+      pattern: write
+    - name: get
+      description: Retrieve a specific resource by name
+      httpMethod: GET
+      pattern: read
+    - name: update
+      description: Update an existing resource configuration
+      httpMethod: PUT
+      pattern: write
+    - name: delete
+      description: Remove a resource configuration
+      httpMethod: DELETE
+      pattern: destructive
+    - name: query
+      description: Query observability metrics and logs
+      httpMethod: POST
+      pattern: query
+    - name: terminate
+      description: End a stateful session
+      httpMethod: DELETE
+      pattern: destructive
+
+  schemas:
+    core:
+      - name: LLMBackend
+        description: LLM provider backend configuration
+        properties:
+          - name
+          - provider
+          - model
+          - alias
+          - baseUrl
+          - authentication
+          - weight
+          - priority
+      - name: MCPTarget
+        description: MCP server target configuration for tool federation
+        properties:
+          - name
+          - type
+          - url
+          - authentication
+          - tools
+          - allowedClients
+      - name: Route
+        description: Traffic routing rule for matching and forwarding requests
+        properties:
+          - name
+          - matches
+          - backend
+          - rateLimit
+          - retries
+
+  enums:
+    providers:
+      - openai
+      - anthropic
+      - gemini
+      - bedrock
+      - azure-openai
+      - ollama
+      - vllm
+    mcp_connection_types:
+      - sse
+      - stdio
+      - http
+    auth_types:
+      - bearer
+      - apikey
+      - basic
+      - none
+
+  authentication:
+    schemes:
+      - name: JWT
+        type: bearer
+        description: JSON Web Token authentication for client requests
+      - name: API Key
+        type: apiKey
+        description: API key authentication via header
+      - name: OAuth2
+        type: oauth2
+        description: OAuth2 flows for enterprise identity provider integration
+
+capability:
+  workflows:
+    - name: Multi-Provider LLM Routing
+      description: Configure multiple LLM backends and route requests with failover and load balancing
+      apis:
+        - agentgateway
+      personas:
+        - Platform Engineer
+      domains:
+        - LLM Gateway
+    - name: MCP Tool Federation
+      description: Connect multiple MCP servers and expose a unified tool catalog to AI agents
+      apis:
+        - agentgateway
+      personas:
+        - AI Developer
+        - Platform Engineer
+      domains:
+        - MCP Gateway
+    - name: Agent Governance and Security
+      description: Apply RBAC, rate limits, content filtering, and audit logging to all agent traffic
+      apis:
+        - agentgateway
+      personas:
+        - Security Engineer
+      domains:
+        - Security
+
+  personas:
+    - id: platform-engineer
+      name: Platform Engineer
+      description: Engineers deploying and configuring AgentGateway infrastructure
+      workflows:
+        - Multi-Provider LLM Routing
+        - MCP Tool Federation
+    - id: ai-developer
+      name: AI Developer
+      description: Developers building AI applications that use the gateway for LLM and tool access
+      workflows:
+        - MCP Tool Federation
+    - id: security-engineer
+      name: Security Engineer
+      description: Security teams applying governance and compliance controls to agent traffic
+      workflows:
+        - Agent Governance and Security
+
+  domains:
+    - name: LLM Gateway
+      description: Multi-provider LLM routing, aliasing, failover, and cost controls
+    - name: MCP Gateway
+      description: Tool federation, MCP server connection, and tool authorization
+    - name: Security
+      description: RBAC, authentication, content filtering, and compliance controls
+
+crossReference:
+  - resource: llm-backends
+    operations:
+      - list
+      - create
+      - update
+    workflows:
+      - Multi-Provider LLM Routing
+    personas:
+      - Platform Engineer
+  - resource: mcp-targets
+    operations:
+      - list
+      - create
+      - update
+    workflows:
+      - MCP Tool Federation
+    personas:
+      - AI Developer
+      - Platform Engineer
+  - resource: guardrails
+    operations:
+      - list
+      - create
+      - update
+    workflows:
+      - Agent Governance and Security
+    personas:
+      - Security Engineer

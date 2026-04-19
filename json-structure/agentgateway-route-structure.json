@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/json-structure/agentgateway-route-structure.json",
+  "name": "Route",
+  "description": "A routing rule in AgentGateway that matches incoming requests and forwards them to a backend or MCP target.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique name for this route.",
+      "example": "openai-route"
+    },
+    "matches": {
+      "type": "array",
+      "description": "List of matching criteria for this route.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "headers": {
+            "type": "array",
+            "description": "Header-based match criteria.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "path": {
+            "type": "object",
+            "description": "Path-based match criteria.",
+            "properties": {
+              "prefix": {
+                "type": "string"
+              },
+              "exact": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "backend": {
+      "type": "string",
+      "description": "Name of the LLM backend to forward matched requests to.",
+      "example": "openai-gpt4"
+    },
+    "rateLimit": {
+      "type": "object",
+      "description": "Rate limiting configuration for this route.",
+      "properties": {
+        "requestsPerSecond": {
+          "type": "int32",
+          "description": "Maximum requests per second.",
+          "example": 10
+        },
+        "burstSize": {
+          "type": "int32",
+          "description": "Maximum burst size above the rate limit.",
+          "example": 20
+        }
+      }
+    },
+    "retries": {
+      "type": "object",
+      "description": "Retry policy for failed requests.",
+      "properties": {
+        "attempts": {
+          "type": "int32",
+          "example": 3
+        },
+        "perTryTimeout": {
+          "type": "string",
+          "example": "30s"
+        }
+      }
+    }
+  },
+  "required": [
+    "name",
+    "backend"
+  ]
+}
