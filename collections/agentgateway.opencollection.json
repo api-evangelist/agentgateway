@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AgentGateway Admin / Debug API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Dump the runtime configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/config_dump"
+          },
+          "docs": "Dump the runtime configuration"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Debug",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Stream a JSON-over-SSE trace of the next request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/trace"
+          },
+          "docs": "Stream a JSON-over-SSE trace of the next request"
+        },
+        {
+          "info": {
+            "name": "Inspect the live tokio task tree",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/tasks"
+          },
+          "docs": "Inspect the live tokio task tree"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logging",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the current logging level",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/logging"
+          },
+          "docs": "Get the current logging level"
+        },
+        {
+          "info": {
+            "name": "Set the logging level at runtime",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://127.0.0.1:15000/logging"
+          },
+          "docs": "Set the logging level at runtime"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Memory",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Allocator and process memory statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/memory"
+          },
+          "docs": "Allocator and process memory statistics"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Profiling",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "CPU profile via pprof",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/pprof/profile",
+            "params": [
+              {
+                "name": "seconds",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "CPU profile via pprof"
+        },
+        {
+          "info": {
+            "name": "Heap profile via pprof",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/pprof/heap"
+          },
+          "docs": "Heap profile via pprof"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Lifecycle",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate graceful shutdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://127.0.0.1:15000/quitquitquit"
+          },
+          "docs": "Initiate graceful shutdown"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

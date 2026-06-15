@@ -1,0 +1,641 @@
+{
+  "item": [
+    {
+      "id": "eb5ea130-5a7f-4022-94d0-78c725f7397c",
+      "name": "Config",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5216a47e-162b-4afb-815c-426c858292d5",
+          "name": "Dump the runtime configuration",
+          "request": {
+            "name": "Dump the runtime configuration",
+            "description": {},
+            "url": {
+              "path": [
+                "config_dump"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2546c9cd-a09b-4926-906b-1441f42ce66d",
+              "name": "Current runtime configuration",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config_dump"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "88b5497b-7429-4ae1-bbe9-6d8e08b9eeb5",
+      "name": "Debug",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a62cec59-4295-4511-ad9e-aba39c0d9042",
+          "name": "Stream a JSON-over-SSE trace of the next request",
+          "request": {
+            "name": "Stream a JSON-over-SSE trace of the next request",
+            "description": {},
+            "url": {
+              "path": [
+                "debug",
+                "trace"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19535d8a-11cf-484c-ac81-7b44dd744333",
+              "name": "SSE stream of trace events",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debug",
+                    "trace"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "28068d7f-6a23-4dfe-8914-c597db6d9e25",
+          "name": "Inspect the live tokio task tree",
+          "request": {
+            "name": "Inspect the live tokio task tree",
+            "description": {},
+            "url": {
+              "path": [
+                "debug",
+                "tasks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fb8ff0d5-ab36-4f90-bbde-0b2eee93793a",
+              "name": "Task tree",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debug",
+                    "tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "6c6ca2fb-c4d7-45b1-b0ec-1093d995198f",
+      "name": "Logging",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bdc8eb69-985b-455f-a108-0a5373621dce",
+          "name": "Get the current logging level",
+          "request": {
+            "name": "Get the current logging level",
+            "description": {},
+            "url": {
+              "path": [
+                "logging"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5f6f4477-9f26-4bdc-be67-ea661a22affd",
+              "name": "Current logging configuration",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "logging"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c99d2a34-1f73-4991-a9a9-0354d3e41f0b",
+          "name": "Set the logging level at runtime",
+          "request": {
+            "name": "Set the logging level at runtime",
+            "description": {},
+            "url": {
+              "path": [
+                "logging"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fd46c546-4813-464b-a859-a3d467c2e825",
+              "name": "Logging level updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "logging"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "83019caf-2377-4cb7-bedc-e986ff8e4021",
+      "name": "Memory",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "efabc6b4-3354-4376-8c88-e86ff96b587f",
+          "name": "Allocator and process memory statistics",
+          "request": {
+            "name": "Allocator and process memory statistics",
+            "description": {},
+            "url": {
+              "path": [
+                "memory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "56f15c79-6141-41d8-beac-1c9091764026",
+              "name": "Memory stats",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "memory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e38071b5-b341-40c5-b728-7a778396d148",
+      "name": "Profiling",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dc58c05e-4c9b-4e78-811f-27fc9e3d4a78",
+          "name": "CPU profile via pprof",
+          "request": {
+            "name": "CPU profile via pprof",
+            "description": {},
+            "url": {
+              "path": [
+                "debug",
+                "pprof",
+                "profile"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "seconds",
+                  "value": "30"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "48163530-5938-45ca-87bc-340936d5cce5",
+              "name": "pprof CPU profile",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debug",
+                    "pprof",
+                    "profile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "seconds",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eab5a150-ee13-4def-ba50-7439a03f5f1c",
+          "name": "Heap profile via pprof",
+          "request": {
+            "name": "Heap profile via pprof",
+            "description": {},
+            "url": {
+              "path": [
+                "debug",
+                "pprof",
+                "heap"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7c9d25c7-e43e-4e28-9739-ff300817c7f6",
+              "name": "pprof heap profile",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debug",
+                    "pprof",
+                    "heap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b4ba8cad-a293-46c3-8590-158bac175995",
+      "name": "Lifecycle",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a942b4a0-35c9-4ce6-88af-526945212cbe",
+          "name": "Initiate graceful shutdown",
+          "request": {
+            "name": "Initiate graceful shutdown",
+            "description": {},
+            "url": {
+              "path": [
+                "quitquitquit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9c990679-8105-449b-a163-5a86c7406542",
+              "name": "Shutdown initiated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quitquitquit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:15000",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ef6a66d5-ac3b-4d04-9718-c6bcf2e4b3ac",
+    "name": "AgentGateway Admin / Debug API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "AgentGateway exposes a local admin and debug HTTP API on its administrative bind address (default 127.0.0.1:15000) for inspecting runtime configuration, controlling logging, profiling, and triggering graceful shutdown. AgentGateway also forwards LLM, MCP and A2A traffic to upstream providers via dynamic routes, but those routes are user-configured rather than fixed paths.\n\nContact Support:\n Name: AgentGateway",
+      "type": "text/plain"
+    }
+  }
+}
