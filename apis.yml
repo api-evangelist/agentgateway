@@ -6,7 +6,7 @@ description: AgentGateway is an open-source, AI-native proxy and gateway for rou
 url: https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/apis.yml
 humanURL: https://agentgateway.dev/
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - AI Gateway
 - API Gateway
