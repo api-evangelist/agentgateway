@@ -121,7 +121,7 @@ common:
     description: Export metrics, traces, and logs to any OpenTelemetry-compatible observability backend.
   - name: Kubernetes Gateway API
     description: Deploy and configure AgentGateway on Kubernetes using the standard Gateway API for dynamic configuration.
-- type: LLMsTxt
+- type: LlmsText
   url: https://agentgateway.dev/llms.txt
 maintainers:
 - FN: Kin Lane
