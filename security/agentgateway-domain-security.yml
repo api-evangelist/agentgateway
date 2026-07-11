@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: agentgateway.dev
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep  9 19:32:36 2026 GMT
+  hsts: false
+- host: 127.0.0.1
+  https: false
+domains:
+- domain: agentgateway.dev
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

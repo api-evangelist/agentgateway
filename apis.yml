@@ -42,6 +42,8 @@ apis:
   - type: GitHubRepository
     url: https://github.com/agentgateway/agentgateway
 common:
+- type: DomainSecurity
+  url: security/agentgateway-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/agentgateway
 - type: JSONSchema
@@ -123,6 +125,8 @@ common:
     description: Deploy and configure AgentGateway on Kubernetes using the standard Gateway API for dynamic configuration.
 - type: LlmsText
   url: https://agentgateway.dev/llms.txt
+- url: https://agentgateway.dev/blog/index.xml
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
