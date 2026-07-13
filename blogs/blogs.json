@@ -1,0 +1,13 @@
+{
+  "repo": "agentgateway",
+  "feeds": [
+    {
+      "source": "https://agentgateway.dev/blog/index.xml",
+      "feed_url": "https://agentgateway.dev/blog/index.xml",
+      "saved": 0,
+      "error": "no_feed_no_posts"
+    }
+  ],
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 23
+}
