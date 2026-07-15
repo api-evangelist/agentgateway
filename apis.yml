@@ -42,6 +42,8 @@ apis:
   - type: GitHubRepository
     url: https://github.com/agentgateway/agentgateway
 common:
+- type: AgenticAccess
+  url: agentic-access/agentgateway-agentic-access.yml
 - type: DomainSecurity
   url: security/agentgateway-domain-security.yml
 - type: GitHubOrganization
