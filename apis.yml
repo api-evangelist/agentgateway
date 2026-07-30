@@ -6,7 +6,19 @@ description: AgentGateway is an open-source, AI-native proxy and gateway for rou
 url: https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/apis.yml
 humanURL: https://agentgateway.dev/
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/agentgateway.png
 tags:
 - AI Gateway
 - API Gateway
@@ -23,8 +35,10 @@ specificationVersion: '0.19'
 apis:
 - aid: agentgateway:agentgateway
   name: AgentGateway
-  description: AgentGateway provides AI-native gateway capabilities for routing LLM traffic, federating MCP tools, enabling agent-to-agent communication, and applying security and observability 
-    controls across AI agent infrastructure.
+  description: >-
+    AgentGateway provides AI-native gateway capabilities for routing LLM traffic, federating MCP tools,
+    enabling agent-to-agent communication, and applying security and observability controls across AI
+    agent infrastructure.
   humanURL: https://agentgateway.dev/
   baseURL: https://agentgateway.dev
   tags:
@@ -41,6 +55,66 @@ apis:
     url: https://agentgateway.dev/docs/quickstart/
   - type: GitHubRepository
     url: https://github.com/agentgateway/agentgateway
+- aid: agentgateway:agentgateway-config-api
+  name: AgentGateway Config API
+  description: The Config API from AgentGateway — 1 operation(s) for config.
+  humanURL: https://agentgateway.dev/
+  baseURL: https://agentgateway.dev
+  tags:
+  - Config
+  properties:
+  - type: OpenAPI
+    url: openapi/agentgateway-config-api-openapi.yml
+- aid: agentgateway:agentgateway-debug-api
+  name: AgentGateway Debug API
+  description: The Debug API from AgentGateway — 2 operation(s) for debug.
+  humanURL: https://agentgateway.dev/
+  baseURL: https://agentgateway.dev
+  tags:
+  - Debug
+  properties:
+  - type: OpenAPI
+    url: openapi/agentgateway-debug-api-openapi.yml
+- aid: agentgateway:agentgateway-lifecycle-api
+  name: AgentGateway Lifecycle API
+  description: The Lifecycle API from AgentGateway — 1 operation(s) for lifecycle.
+  humanURL: https://agentgateway.dev/
+  baseURL: https://agentgateway.dev
+  tags:
+  - Lifecycle
+  properties:
+  - type: OpenAPI
+    url: openapi/agentgateway-lifecycle-api-openapi.yml
+- aid: agentgateway:agentgateway-logging-api
+  name: AgentGateway Logging API
+  description: The Logging API from AgentGateway — 1 operation(s) for logging.
+  humanURL: https://agentgateway.dev/
+  baseURL: https://agentgateway.dev
+  tags:
+  - Logging
+  properties:
+  - type: OpenAPI
+    url: openapi/agentgateway-logging-api-openapi.yml
+- aid: agentgateway:agentgateway-memory-api
+  name: AgentGateway Memory API
+  description: The Memory API from AgentGateway — 1 operation(s) for memory.
+  humanURL: https://agentgateway.dev/
+  baseURL: https://agentgateway.dev
+  tags:
+  - Memory
+  properties:
+  - type: OpenAPI
+    url: openapi/agentgateway-memory-api-openapi.yml
+- aid: agentgateway:agentgateway-profiling-api
+  name: AgentGateway Profiling API
+  description: The Profiling API from AgentGateway — 2 operation(s) for profiling.
+  humanURL: https://agentgateway.dev/
+  baseURL: https://agentgateway.dev
+  tags:
+  - Profiling
+  properties:
+  - type: OpenAPI
+    url: openapi/agentgateway-profiling-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/agentgateway-agentic-access.yml
