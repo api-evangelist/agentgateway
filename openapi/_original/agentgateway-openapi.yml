@@ -1,0 +1,101 @@
+openapi: 3.1.0
+info:
+  title: AgentGateway Admin / Debug API
+  version: "1.0.0"
+  description: >-
+    AgentGateway exposes a local admin and debug HTTP API on its
+    administrative bind address (default 127.0.0.1:15000) for inspecting
+    runtime configuration, controlling logging, profiling, and triggering
+    graceful shutdown. AgentGateway also forwards LLM, MCP and A2A traffic
+    to upstream providers via dynamic routes, but those routes are
+    user-configured rather than fixed paths.
+  contact:
+    name: AgentGateway
+    url: https://agentgateway.dev/docs/
+servers:
+  - url: http://127.0.0.1:15000
+    description: Default admin / debug bind address (configurable via adminAddr)
+tags:
+  - name: Config
+  - name: Debug
+  - name: Logging
+  - name: Memory
+  - name: Profiling
+  - name: Lifecycle
+paths:
+  /config_dump:
+    get:
+      tags: [Config]
+      summary: Dump the runtime configuration
+      responses:
+        "200":
+          description: Current runtime configuration
+  /debug/trace:
+    get:
+      tags: [Debug]
+      summary: Stream a JSON-over-SSE trace of the next request
+      responses:
+        "200":
+          description: SSE stream of trace events
+          content:
+            text/event-stream: {}
+  /logging:
+    get:
+      tags: [Logging]
+      summary: Get the current logging level
+      responses:
+        "200":
+          description: Current logging configuration
+    post:
+      tags: [Logging]
+      summary: Set the logging level at runtime
+      responses:
+        "200":
+          description: Logging level updated
+  /memory:
+    get:
+      tags: [Memory]
+      summary: Allocator and process memory statistics
+      responses:
+        "200":
+          description: Memory stats
+  /debug/pprof/profile:
+    get:
+      tags: [Profiling]
+      summary: CPU profile via pprof
+      parameters:
+        - name: seconds
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 30
+      responses:
+        "200":
+          description: pprof CPU profile
+          content:
+            application/octet-stream: {}
+  /debug/pprof/heap:
+    get:
+      tags: [Profiling]
+      summary: Heap profile via pprof
+      responses:
+        "200":
+          description: pprof heap profile
+          content:
+            application/octet-stream: {}
+  /debug/tasks:
+    get:
+      tags: [Debug]
+      summary: Inspect the live tokio task tree
+      responses:
+        "200":
+          description: Task tree
+  /quitquitquit:
+    post:
+      tags: [Lifecycle]
+      summary: Initiate graceful shutdown
+      responses:
+        "200":
+          description: Shutdown initiated
+components: {}

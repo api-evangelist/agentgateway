@@ -1,0 +1,24 @@
+{
+  "provider": "agentgateway",
+  "sources": [
+    "agentgateway-config-api-openapi.yml",
+    "agentgateway-debug-api-openapi.yml",
+    "agentgateway-lifecycle-api-openapi.yml",
+    "agentgateway-logging-api-openapi.yml",
+    "agentgateway-memory-api-openapi.yml",
+    "agentgateway-profiling-api-openapi.yml"
+  ],
+  "outputs": [
+    "agentgateway-config-api-openapi.yml",
+    "agentgateway-debug-api-openapi.yml",
+    "agentgateway-lifecycle-api-openapi.yml",
+    "agentgateway-logging-api-openapi.yml",
+    "agentgateway-memory-api-openapi.yml",
+    "agentgateway-profiling-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
