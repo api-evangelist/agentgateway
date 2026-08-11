@@ -116,6 +116,17 @@ apis:
   - type: OpenAPI
     url: openapi/agentgateway-profiling-api-openapi.yml
 common:
+- type: IssueTracker
+  url: https://github.com/agentgateway/agentgateway/issues
+- type: Releases
+  url: https://github.com/agentgateway/agentgateway/releases
+- type: SecurityPolicy
+  url: https://github.com/agentgateway/agentgateway/blob/main/SECURITY.md
+- type: CodeOfConduct
+  url: https://github.com/agentgateway/agentgateway/blob/main/CODE_OF_CONDUCT.md
+- type: License
+  name: Apache-2.0
+  url: https://github.com/agentgateway/agentgateway/blob/main/LICENSE
 - type: AgenticAccess
   url: agentic-access/agentgateway-agentic-access.yml
 - type: DomainSecurity
