@@ -1,0 +1,158 @@
+{
+  "item": [
+    {
+      "id": "c7158d24-acbd-4738-9897-ff8c1f3ed256",
+      "name": "Debug",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e598168d-aa17-4883-9e75-a0a33124e9bf",
+          "name": "Stream a JSON-over-SSE trace of the next request",
+          "request": {
+            "name": "Stream a JSON-over-SSE trace of the next request",
+            "description": {},
+            "url": {
+              "path": [
+                "debug",
+                "trace"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "922c7bdd-3572-4816-ab39-9e1d54c809c3",
+              "name": "SSE stream of trace events",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debug",
+                    "trace"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "865f6528-b5bc-4080-92cc-c673d58d2cd4",
+          "name": "Inspect the live tokio task tree",
+          "request": {
+            "name": "Inspect the live tokio task tree",
+            "description": {},
+            "url": {
+              "path": [
+                "debug",
+                "tasks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a81345ab-fe7d-4a15-962f-639399f70fc4",
+              "name": "Task tree",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debug",
+                    "tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:15000",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "988fcad5-1179-49c2-ab8f-c0384b07d304",
+    "name": "AgentGateway Admin / Config Debug API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "AgentGateway exposes a local admin and debug HTTP API on its administrative bind address (default 127.0.0.1:15000) for inspecting runtime configuration, controlling logging, profiling, and triggering graceful shutdown. AgentGateway also forwards LLM, MCP and A2A traffic to upstream providers via dynamic routes, but those routes are user-configured rather than fixed paths.\n\nContact Support:\n Name: AgentGateway",
+      "type": "text/plain"
+    }
+  }
+}

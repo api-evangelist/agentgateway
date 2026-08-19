@@ -1,0 +1,87 @@
+{
+  "item": [
+    {
+      "id": "8344d072-1b37-4b69-ba51-a572f291de4f",
+      "name": "Config",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1e38b178-4a6d-4691-ac00-97b6558b4912",
+          "name": "Dump the runtime configuration",
+          "request": {
+            "name": "Dump the runtime configuration",
+            "description": {},
+            "url": {
+              "path": [
+                "config_dump"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "db2f22d5-be8b-4fc6-b7cf-f0610b28842c",
+              "name": "Current runtime configuration",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config_dump"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:15000",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "13c8f406-9483-4cd6-95fb-0ffe12a06eee",
+    "name": "AgentGateway Admin / Debug Config API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "AgentGateway exposes a local admin and debug HTTP API on its administrative bind address (default 127.0.0.1:15000) for inspecting runtime configuration, controlling logging, profiling, and triggering graceful shutdown. AgentGateway also forwards LLM, MCP and A2A traffic to upstream providers via dynamic routes, but those routes are user-configured rather than fixed paths.\n\nContact Support:\n Name: AgentGateway",
+      "type": "text/plain"
+    }
+  }
+}

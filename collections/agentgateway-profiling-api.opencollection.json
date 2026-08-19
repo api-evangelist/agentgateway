@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AgentGateway Admin / Debug Config Profiling API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Profiling",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "CPU profile via pprof",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/pprof/profile",
+            "params": [
+              {
+                "name": "seconds",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "CPU profile via pprof"
+        },
+        {
+          "info": {
+            "name": "Heap profile via pprof",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/pprof/heap"
+          },
+          "docs": "Heap profile via pprof"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

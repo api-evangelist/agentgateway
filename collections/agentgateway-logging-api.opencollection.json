@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AgentGateway Admin / Debug Config Logging API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Logging",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the current logging level",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/logging"
+          },
+          "docs": "Get the current logging level"
+        },
+        {
+          "info": {
+            "name": "Set the logging level at runtime",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://127.0.0.1:15000/logging"
+          },
+          "docs": "Set the logging level at runtime"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

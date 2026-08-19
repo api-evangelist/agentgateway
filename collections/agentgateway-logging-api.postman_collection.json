@@ -1,0 +1,142 @@
+{
+  "item": [
+    {
+      "id": "7c1d6d48-e4c5-4a7e-b70e-d27055e57024",
+      "name": "Logging",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c864488a-5028-4133-ae71-64526a430ea7",
+          "name": "Get the current logging level",
+          "request": {
+            "name": "Get the current logging level",
+            "description": {},
+            "url": {
+              "path": [
+                "logging"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "696149e5-a62a-4070-95bd-e598e63846b3",
+              "name": "Current logging configuration",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "logging"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3887ad8e-df29-4a0e-8565-a90c6efbde38",
+          "name": "Set the logging level at runtime",
+          "request": {
+            "name": "Set the logging level at runtime",
+            "description": {},
+            "url": {
+              "path": [
+                "logging"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1af06f44-8428-4042-95f7-420ba82ec1db",
+              "name": "Logging level updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "logging"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:15000",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5cfc89a5-317c-4b56-9eb1-b4efc635616d",
+    "name": "AgentGateway Admin / Debug Config Logging API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "AgentGateway exposes a local admin and debug HTTP API on its administrative bind address (default 127.0.0.1:15000) for inspecting runtime configuration, controlling logging, profiling, and triggering graceful shutdown. AgentGateway also forwards LLM, MCP and A2A traffic to upstream providers via dynamic routes, but those routes are user-configured rather than fixed paths.\n\nContact Support:\n Name: AgentGateway",
+      "type": "text/plain"
+    }
+  }
+}

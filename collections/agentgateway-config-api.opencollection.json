@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AgentGateway Admin / Debug Config API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Dump the runtime configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/config_dump"
+          },
+          "docs": "Dump the runtime configuration"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

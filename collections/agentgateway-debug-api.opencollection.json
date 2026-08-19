@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AgentGateway Admin / Config Debug API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Debug",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Stream a JSON-over-SSE trace of the next request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/trace"
+          },
+          "docs": "Stream a JSON-over-SSE trace of the next request"
+        },
+        {
+          "info": {
+            "name": "Inspect the live tokio task tree",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:15000/debug/tasks"
+          },
+          "docs": "Inspect the live tokio task tree"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
