@@ -53,11 +53,18 @@ tags_raw:
 - Observability
 - Security
 created: '2026-03-27'
-modified: '2026-04-19'
+modified: '2026-08-30'
 specificationVersion: '0.23'
 apis:
 - aid: agentgateway:agentgateway
   name: AgentGateway
+  x-base-url-note: >-
+    agentgateway is self-hosted: there is no callable hosted API host. The five admin/debug API
+    entries below carry baseURL http://127.0.0.1:15000, which is the documented default admin bind
+    address and matches their OpenAPI servers[] blocks. They previously carried
+    https://agentgateway.dev, which serves documentation only - probed 2026-08-30,
+    https://agentgateway.dev/config_dump returns 404. This entry keeps the project site as its base
+    because the data plane's port is whatever the operator configures (the docs' examples use 3000).
   description: >-
     AgentGateway provides AI-native gateway capabilities for routing LLM traffic, federating MCP tools,
     enabling agent-to-agent communication, and applying security and observability controls across AI
@@ -78,67 +85,149 @@ apis:
     url: https://agentgateway.dev/docs/quickstart/
   - type: GitHubRepository
     url: https://github.com/agentgateway/agentgateway
+  - type: APIReference
+    url: https://agentgateway.dev/docs/standalone/latest/reference/
+  - type: JSONSchema
+    url: https://agentgateway.dev/schema/config
 - aid: agentgateway:agentgateway-config-api
   name: AgentGateway Config API
   description: The Config API from AgentGateway — 1 operation(s) for config.
   humanURL: https://agentgateway.dev/
-  baseURL: https://agentgateway.dev
+  baseURL: http://127.0.0.1:15000
   tags:
   - Config
   properties:
   - type: OpenAPI
     url: openapi/agentgateway-config-api-openapi.yml
+  - type: Overlay
+    url: overlays/agentgateway-config-api-overlay.yaml
 - aid: agentgateway:agentgateway-debug-api
   name: AgentGateway Debug API
   description: The Debug API from AgentGateway — 2 operation(s) for debug.
   humanURL: https://agentgateway.dev/
-  baseURL: https://agentgateway.dev
+  baseURL: http://127.0.0.1:15000
   tags:
   - Debug
   properties:
   - type: OpenAPI
     url: openapi/agentgateway-debug-api-openapi.yml
+  - type: Overlay
+    url: overlays/agentgateway-debug-api-overlay.yaml
 - aid: agentgateway:agentgateway-lifecycle-api
   name: AgentGateway Lifecycle API
   description: The Lifecycle API from AgentGateway — 1 operation(s) for lifecycle.
   humanURL: https://agentgateway.dev/
-  baseURL: https://agentgateway.dev
+  baseURL: http://127.0.0.1:15000
   tags:
   - Lifecycle
   properties:
   - type: OpenAPI
     url: openapi/agentgateway-lifecycle-api-openapi.yml
+  - type: Overlay
+    url: overlays/agentgateway-lifecycle-api-overlay.yaml
 - aid: agentgateway:agentgateway-logging-api
   name: AgentGateway Logging API
   description: The Logging API from AgentGateway — 1 operation(s) for logging.
   humanURL: https://agentgateway.dev/
-  baseURL: https://agentgateway.dev
+  baseURL: http://127.0.0.1:15000
   tags:
   - Logging
   properties:
   - type: OpenAPI
     url: openapi/agentgateway-logging-api-openapi.yml
+  - type: Overlay
+    url: overlays/agentgateway-logging-api-overlay.yaml
 - aid: agentgateway:agentgateway-memory-api
   name: AgentGateway Memory API
   description: The Memory API from AgentGateway — 1 operation(s) for memory.
   humanURL: https://agentgateway.dev/
-  baseURL: https://agentgateway.dev
+  baseURL: http://127.0.0.1:15000
   tags:
   - Memory
   properties:
   - type: OpenAPI
     url: openapi/agentgateway-memory-api-openapi.yml
+  - type: Overlay
+    url: overlays/agentgateway-memory-api-overlay.yaml
 - aid: agentgateway:agentgateway-profiling-api
   name: AgentGateway Profiling API
   description: The Profiling API from AgentGateway — 2 operation(s) for profiling.
   humanURL: https://agentgateway.dev/
-  baseURL: https://agentgateway.dev
+  baseURL: http://127.0.0.1:15000
   tags:
   - Profiling
   properties:
   - type: OpenAPI
     url: openapi/agentgateway-profiling-api-openapi.yml
+  - type: Overlay
+    url: overlays/agentgateway-profiling-api-overlay.yaml
 common:
+- type: Website
+  url: https://agentgateway.dev/
+- type: APIReference
+  url: https://agentgateway.dev/docs/standalone/latest/reference/
+- type: TermsOfService
+  url: https://lfprojects.org/policies/terms-of-use/
+- type: PrivacyPolicy
+  url: https://www.linuxfoundation.org/legal/privacy-policy
+- type: Charter
+  url: https://github.com/agentgateway/agentgateway/blob/main/CHARTER.md
+- type: JSONSchema
+  url: https://agentgateway.dev/schema/config
+  title: Configuration Schema (LocalConfig) - first-party, JSON Schema draft 2020-12, 302 definitions
+- type: JSONSchema
+  url: json-schema/agentgateway-config-schema.json
+  title: Configuration Schema (LocalConfig) - verbatim capture of https://agentgateway.dev/schema/config
+- type: JSONStructure
+  url: json-structure/agentgateway-route-structure.json
+- type: Examples
+  url: https://github.com/agentgateway/agentgateway/tree/main/examples
+- type: SpectralRules
+  url: rules/agentgateway-jsonschema-spectral-rules.yml
+- type: Plans
+  url: plans/agentgateway-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/agentgateway-rate-limits.yml
+- type: FinOps
+  url: finops/agentgateway-finops.yml
+- type: Packages
+  url: packages/agentgateway-packages.yml
+- type: CLI
+  url: cli/agentgateway-cli.yml
+- type: Authentication
+  url: authentication/agentgateway-authentication.yml
+- type: Conventions
+  url: conventions/agentgateway-conventions.yml
+- type: Conformance
+  url: conformance/agentgateway-conformance.yml
+- type: ErrorCatalog
+  url: errors/agentgateway-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/agentgateway-lifecycle.yml
+- type: Deprecation
+  url: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+- type: ChangeLog
+  url: changelog/agentgateway-changelog.yml
+- type: DataModel
+  url: data-model/agentgateway-data-model.yml
+- type: Sandbox
+  url: sandbox/agentgateway-sandbox.yml
+- type: Webhooks
+  url: webhooks/agentgateway-webhooks.yml
+- type: Security
+  url: https://github.com/agentgateway/agentgateway/blob/main/SECURITY.md
+- type: VulnerabilityDisclosure
+  url: security/agentgateway-vulnerability-disclosure.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/agentgateway-llms.txt
+- type: WellKnown-probe
+  url: well-known/agentgateway-well-known.yml
+  note: Probe record only - every /.well-known path 404s. Deliberately NOT type WellKnown, which would assert a served document.
+- type: MCPServer-candidate
+  url: mcp/agentgateway-mcp.yml
+  note: Derived candidate only - agentgateway ships no MCP server of its own. Deliberately NOT type MCPServer.
 - type: IssueTracker
   url: https://github.com/agentgateway/agentgateway/issues
 - type: Releases
@@ -240,3 +329,8 @@ common:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-30'
+  status: enriched
+  artifacts_added: 25
+  pass: local-v1

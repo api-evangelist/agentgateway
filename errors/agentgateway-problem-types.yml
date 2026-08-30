@@ -1,0 +1,97 @@
+generated: '2026-08-30'
+method: derived
+source: openapi/ + https://agentgateway.dev/docs/standalone/latest/operations/debug/ + .../configuration/resiliency/rate-limits/ + .../configuration/security/mcp-authn/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Error semantics for agentgateway. The admin/debug API documents only 200 responses and no error
+  envelope, so the admin table below is DERIVED from HTTP semantics and the one error case the docs
+  do state (a 404 from the CPU profile endpoint on non-Linux builds). The proxy table is the useful
+  one: these are the statuses agentgateway itself GENERATES for traffic passing through, each cited to
+  the doc page that specifies it.
+format: none
+format_note: >-
+  RFC 9457 application/problem+json is not used and no JSON error body is documented. Errors are bare
+  HTTP status codes, sometimes with a WWW-Authenticate header. Recorded as an honest gap: an agent
+  calling agentgateway has a status code and nothing machine-readable to branch on.
+admin_api_errors:
+  method: derived
+  note: The specs under openapi/ declare 200 only. These are the statuses a caller must still handle.
+  errors:
+    - status: 404
+      operation: GET /debug/pprof/profile
+      title: CPU profile endpoint not registered
+      cause: >-
+        Profiling is available only on Linux builds. On macOS and Windows builds the CPU profile
+        endpoint is not registered and `agctl proxy profile cpu` fails with 404 Not Found.
+      remediation: Run the profile against a Linux build of agentgateway.
+      confidence: high
+      source: https://agentgateway.dev/docs/standalone/latest/operations/debug/#capture-profiles
+    - status: 200
+      operation: GET /debug/pprof/heap
+      title: Heap profile with no allocation samples
+      cause: On macOS and Windows builds the heap profile is written but contains no allocation samples.
+      remediation: Treat an empty profile as a platform limitation, not an empty workload.
+      confidence: high
+      source: https://agentgateway.dev/docs/standalone/latest/operations/debug/#capture-profiles
+    - status: 000
+      operation: any
+      title: Connection refused
+      cause: The admin interface binds to 127.0.0.1:15000 and is reachable only from the same host. An off-host caller gets a transport error, not an HTTP status.
+      remediation: Call from the host running the proxy, or from the same pod/container network namespace.
+      confidence: high
+      source: https://agentgateway.dev/docs/standalone/latest/operations/debug/
+proxy_generated_errors:
+  method: searched
+  note: >-
+    Statuses agentgateway returns to a client on the data plane, from its own policy layer rather than
+    from the upstream. Cited per row.
+  errors:
+    - status: 401
+      title: Unauthorized
+      condition: MCP authentication in `strict` mode (the default) with no valid token from a configured issuer.
+      headers: WWW-Authenticate is set, carrying the protected-resource metadata pointer an MCP client follows.
+      remediation: Complete the OAuth flow the /.well-known/oauth-protected-resource document describes.
+      source: https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+    - status: 401
+      title: Unauthorized
+      condition: JWT policy rejection. Since 1.5.0 a missing `iss` claim (when issuer is configured) or a missing/non-matching `aud` (when audiences is non-empty) is a rejection where it previously passed.
+      remediation: Confirm the identity provider issues iss, and remove `audiences` or set it empty if your tokens carry no aud.
+      source: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+    - status: 403
+      title: Forbidden
+      condition: HTTP authorization, MCP authorization or external authorization policy denied the request.
+      remediation: Review the route's authorization policy or the ext_authz service's decision.
+      source: https://agentgateway.dev/docs/standalone/latest/configuration/security/http-authz/
+    - status: 429
+      title: Too Many Requests
+      condition: A local or remote rate limit was exceeded, on either the requests or the tokens dimension.
+      remediation: Back off. Token limits are also evaluated at RESPONSE time, so a request can succeed and still consume the budget that rejects the next one.
+      headers: >-
+        No RateLimit-* or Retry-After response header contract is documented for agentgateway's own
+        limiter. Recorded as absent rather than assumed - this is the single most useful missing
+        runtime signal on the product.
+      source: https://agentgateway.dev/docs/standalone/latest/configuration/resiliency/rate-limits/
+    - status: 500
+      title: Internal Server Error
+      condition: The remote rate limit service is unavailable or errored and failureMode is failClosed (the default).
+      remediation: Restore the rate limit service, or set failureMode - failOpen to allow traffic through while it is down.
+      source: https://agentgateway.dev/docs/standalone/latest/configuration/resiliency/rate-limits/#failure-behavior
+    - status: 4xx/5xx
+      title: Guardrail rejection
+      condition: A prompt guard (regex, cloud provider guardrail or custom webhook) blocked a request or response.
+      remediation: Set webhook.action to `audit` to observe without blocking while tuning.
+      source: https://agentgateway.dev/docs/standalone/latest/llm/prompt-guards/overview/
+    - status: passthrough
+      title: Upstream provider error
+      condition: LLM, MCP and A2A upstream errors are proxied back to the client.
+      remediation: Read the upstream provider's own error catalog. Agentgateway does not rewrite them into a common envelope.
+      source: https://agentgateway.dev/docs/standalone/latest/llm/about/
+gaps:
+  - No published error-code registry or error reference page.
+  - No RFC 9457 problem+json envelope.
+  - No documented rate-limit response headers.
+  - The admin OpenAPI declares no 4xx/5xx responses at all.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

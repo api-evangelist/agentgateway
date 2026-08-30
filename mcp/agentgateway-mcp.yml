@@ -1,0 +1,123 @@
+generated: '2026-08-30'
+method: derived
+source: openapi/ (agentgateway admin API) + https://agentgateway.dev/docs/standalone/latest/mcp/about/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Agentgateway is an MCP GATEWAY, not an MCP server operator. It proxies, federates and secures MCP
+  traffic to servers that YOU configure and run - the product ships no hosted MCP server of its own,
+  and no MCP endpoint is published on agentgateway.dev. The tools below are a DERIVED CANDIDATE set,
+  computed from the agentgateway admin/debug HTTP API in openapi/. They describe what an MCP server
+  for agentgateway's own admin surface would expose if someone built one. Nobody ships it today.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: probed
+  note: >-
+    Probed 2026-08-30. POST tools/list to https://agentgateway.dev/mcp, /api/mcp and /sse all returned
+    405 Method Not Allowed (a static site, not a JSON-RPC endpoint); /docs/mcp 301s to the
+    documentation. No first-party remote MCP endpoint and no first-party stdio MCP package exists
+    (npm agentgateway, @agentgateway/agentgateway and agentgateway-cli are all 404 - see
+    packages/agentgateway-packages.yml). mode: none is the honest record.
+proxied_protocols:
+  note: >-
+    What agentgateway DOES do for MCP, from the docs. This is capability, not an agent surface we can call.
+  capabilities:
+    - name: MCP proxying
+      description: Front one or more MCP servers behind a single agentgateway route.
+      docs: https://agentgateway.dev/docs/standalone/latest/mcp/about/
+    - name: Virtual MCP / tool federation
+      description: Federate tools from multiple MCP servers onto one endpoint.
+      docs: https://agentgateway.dev/docs/standalone/latest/mcp/connect/virtual/
+    - name: OpenAPI-to-MCP
+      description: Expose an existing OpenAPI-described REST API as MCP tools.
+      docs: https://agentgateway.dev/docs/standalone/latest/mcp/connect/openapi/
+    - name: MCP authentication
+      description: >-
+        Enforce OAuth on MCP routes and serve /.well-known/oauth-protected-resource and
+        /.well-known/oauth-authorization-server metadata on behalf of the fronted server;
+        401 with WWW-Authenticate on unauthenticated requests.
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+    - name: MCP authorization
+      description: Per-tool authorization policy over MCP method calls.
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authz/
+    - name: MCP guardrails (ExtMCP)
+      description: External authorization and external processing applied to MCP method calls.
+      docs: https://agentgateway.dev/docs/standalone/latest/mcp/guardrails/about/
+    - name: MCP observability
+      description: MCP-specific metrics, access logs and OTLP traces.
+      docs: https://agentgateway.dev/docs/standalone/latest/mcp/mcp-observability/
+  spec_revision: '2026-07-28'
+  spec_revision_source: https://agentgateway.dev/blog/2026-08-03-new-mcp-spec-revision/
+status: candidate
+tools:
+  - name: get_runtime_config
+    status: candidate
+    description: Dump the runtime configuration the proxy has loaded (binds, listeners, routes, backends, workloads, services, policies).
+    rest: GET /config_dump
+    spec: openapi/agentgateway-config-api-openapi.yml
+    consequence: read
+  - name: get_logging_level
+    status: candidate
+    description: Read the current runtime logging level.
+    rest: GET /logging
+    spec: openapi/agentgateway-logging-api-openapi.yml
+    consequence: read
+  - name: set_logging_level
+    status: candidate
+    description: Set the logging level at runtime using RUST_LOG filter syntax (error|warn|info|debug|trace, optionally per-module).
+    rest: POST /logging
+    spec: openapi/agentgateway-logging-api-openapi.yml
+    consequence: write
+    reversible: true
+  - name: get_memory_stats
+    status: candidate
+    description: Allocator and process memory statistics.
+    rest: GET /memory
+    spec: openapi/agentgateway-memory-api-openapi.yml
+    consequence: read
+  - name: inspect_task_tree
+    status: candidate
+    description: Inspect the live tokio task tree.
+    rest: GET /debug/tasks
+    spec: openapi/agentgateway-debug-api-openapi.yml
+    consequence: read
+  - name: stream_request_trace
+    status: candidate
+    description: Stream a JSON-over-SSE trace of the next request the proxy handles. Long-lived stream, not a request/response tool.
+    rest: GET /debug/trace
+    spec: openapi/agentgateway-debug-api-openapi.yml
+    consequence: read
+  - name: collect_cpu_profile
+    status: candidate
+    description: Collect a pprof CPU profile. Linux builds only; seconds 1-300 (default 10), frequency 1-1000 Hz (default 100).
+    rest: GET /debug/pprof/profile
+    spec: openapi/agentgateway-profiling-api-openapi.yml
+    consequence: read
+  - name: collect_heap_profile
+    status: candidate
+    description: Collect a pprof heap profile. Allocation samples on Linux builds only.
+    rest: GET /debug/pprof/heap
+    spec: openapi/agentgateway-profiling-api-openapi.yml
+    consequence: read
+  - name: shutdown_gateway
+    status: candidate
+    description: Trigger a graceful shutdown of the agentgateway process.
+    rest: POST /quitquitquit
+    spec: openapi/agentgateway-lifecycle-api-openapi.yml
+    consequence: destructive
+    reversible: false
+    warning: >-
+      Irreversible from the API. The process exits; restarting it requires host access. Never expose
+      this tool to an autonomous agent without a human gate.
+security_note: >-
+  The admin interface binds to 127.0.0.1:15000 and the docs state plainly that it must stay on the
+  loopback interface: /config_dump discloses the full configuration and /quitquitquit stops the proxy,
+  both to any caller that can open a connection. Any MCP server built over this surface inherits that
+  exposure and must not be reachable off-host.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

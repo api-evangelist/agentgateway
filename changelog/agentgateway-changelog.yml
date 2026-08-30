@@ -1,0 +1,69 @@
+generated: '2026-08-30'
+method: searched
+source: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/ + https://api.github.com/repos/agentgateway/agentgateway/releases
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Agentgateway publishes a dated release history in two places: GitHub Releases (every tag, including
+  prereleases) and a curated per-minor release-notes page in the docs that is organised into
+  Highlights / Breaking changes / Removed or deprecated / New features / Fixes, each breaking item
+  carrying an explicit "Actions to take" paragraph. Only the recent window is captured here.
+changelog:
+  url: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+  status: 200
+  github_url: https://github.com/agentgateway/agentgateway/releases
+  scheme: semver
+  cadence: roughly monthly minors, with alpha/beta/rc prereleases and patch releases in between
+  current_version: v1.5.0
+  current_version_date: '2026-08-27'
+  feed: null
+  feed_note: No RSS/Atom feed for the changelog itself. The project blog does publish https://agentgateway.dev/blog/index.xml and announces each minor there.
+entries:
+  - version: v1.5.0
+    date: '2026-08-27'
+    breaking: true
+    highlights:
+      - API key budgets and model access - cap an individual API key's LLM spend in dollars or tokens and limit which models it can reach.
+      - Native Gemini inbound API - Gemini and Vertex AI SDK clients can call agentgateway in Gemini's native wire format.
+      - Anthropic Messages to OpenAI Responses conversion.
+      - Egress proxying, TCP backends and CONNECT tunneling.
+      - Rebuilt logs and trajectory views in the admin UI for multi-turn agent activity and tool calls.
+    breaking_changes:
+      - LLM input and total token counts now include cache tokens; llm.providerInputTokens / llm.providerTotalTokens added for the raw provider value. Escape hatch AGENTGATEWAY_LEGACY_LLM_USAGE_TOKEN_SEMANTICS=true, planned for removal after 1.5.
+      - JWT validation now REQUIRES the iss claim when issuer is set, and aud when audiences is a non-empty list. Tokens that omitted the claim used to pass.
+      - An AI policy on a backend now merges field-by-field with an attached AI policy instead of replacing it wholesale.
+      - A listener that cannot bind now fails startup with a non-zero exit instead of logging a warning.
+      - Managed API key metadata moved to the reserved agentgateway.dev/ prefix - metadata.id is now metadata["agentgateway.dev/id"].
+    removed_or_deprecated:
+      - MODEL_CATALOG_PATHS environment variable removed; use config.modelCatalog. Silently ignored after upgrade.
+      - '`agctl costs` renamed to `agctl catalog`.'
+    source: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+  - version: v1.5.0-beta.1
+    date: '2026-08-25'
+    prerelease: true
+  - version: v1.4.1
+    date: '2026-07-29'
+    breaking: false
+  - version: v1.4.0
+    date: '2026-07-27'
+    breaking: false
+    highlights:
+      - Support for the 2026-07-28 revision of the MCP specification.
+    source: https://agentgateway.dev/blog/2026-08-03-new-mcp-spec-revision/
+  - version: v1.3.1
+    date: '2026-06-22'
+  - version: v1.3.0
+    date: '2026-06-18'
+    highlights:
+      - 'LLM consumption reimagined: virtual models, weighted and failover routing.'
+    source: https://agentgateway.dev/blog/2026-06-17-agentgateway-v1.3.0/
+  - version: v1.2.0
+    date: '2026-05-11'
+    source: https://agentgateway.dev/blog/2026-05-11-agentgateway-v1.2.0/
+  - version: v1.0.0
+    date: '2026-03-12'
+    milestone: true
+    source: https://agentgateway.dev/blog/2026-03-12-agentgateway-v1.0/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

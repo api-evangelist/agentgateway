@@ -1,0 +1,88 @@
+generated: '2026-08-30'
+method: searched
+source: https://agentgateway.dev/docs/standalone/latest/quickstart/ + .../setup/ui/ + .../reference/cel/playground/ + .../llm/playground/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Agentgateway ships no hosted sandbox and issues no test credentials, because it is not a hosted
+  service - there is nothing to sign up for. What it does ship is a set of SELF-HOSTED consoles and
+  rehearsal surfaces that run inside the binary you install, plus quickstarts that stand up throwaway
+  local backends. Everything below runs on the reader's own machine.
+hosted_sandbox: false
+test_credentials: false
+test_credentials_note: >-
+  No test keys, no test-mode prefixes, no test cards, no magic identifiers. Credentials in
+  agentgateway are the reader's OWN upstream provider keys (for example $OPENAI_API_KEY), supplied
+  through their configuration file. NEVER treat a key in the docs as a usable test value.
+consoles:
+  - name: agentgateway UI
+    type: admin-console
+    hosted: false
+    docs: https://agentgateway.dev/docs/standalone/latest/setup/ui/launch-ui/
+    detail: >-
+      A web UI served on the port of any gateway listed in the `ui` section of the configuration. It
+      manages the proxy, and since 1.5 renders logs and multi-turn agent trajectory views showing tool
+      calls and results. Can be secured with a browser OIDC policy and exposed over HTTPS on your own
+      hostname.
+  - name: LLM playground
+    type: playground
+    hosted: false
+    docs: https://agentgateway.dev/docs/standalone/latest/llm/playground/
+    detail: Send a chat completion request through the gateway from inside the UI, without writing a client.
+  - name: CEL playground
+    type: playground
+    hosted: false
+    docs: https://agentgateway.dev/docs/standalone/latest/reference/cel/playground/
+    detail: >-
+      Evaluate a CEL expression in the UI before committing it to a policy. The nearest thing the
+      product has to a dry run - see the reversibility and dry_run_mode blocks in
+      conventions/agentgateway-conventions.yml.
+  - name: CEL reference explorer
+    type: interactive-reference
+    hosted: true
+    url: https://agentgateway.dev/docs/standalone/latest/reference/cel/cel-context-interactive/
+    detail: An interactive browser of the CEL variable and function context, served on the docs site.
+  - name: Configuration schema explorer
+    type: interactive-reference
+    hosted: true
+    url: https://agentgateway.dev/docs/standalone/latest/reference/configuration/schema/
+    detail: Generated from the agentgateway JSON schema, browsable in the docs.
+quickstart_fixtures:
+  note: >-
+    The quickstarts stand up disposable local backends so a reader can exercise a route without any
+    real upstream. These are third-party open-source test servers agentgateway points you at, not
+    agentgateway-hosted fixtures.
+  fixtures:
+    - name: server-everything
+      protocol: MCP
+      docs: https://agentgateway.dev/docs/standalone/latest/quickstart/mcp/
+      detail: An open-source MCP test server used as the MCP quickstart target.
+    - name: httpbin
+      protocol: HTTP
+      docs: https://agentgateway.dev/docs/standalone/latest/quickstart/non-agentic-http/
+      detail: A local httpbin used as the non-agentic HTTP quickstart backend.
+    - name: A2A Hello World agent
+      protocol: A2A
+      docs: https://agentgateway.dev/docs/standalone/latest/agent/a2a/
+      detail: >-
+        The a2aproject/a2a-samples Hello World ADK agent on localhost:9999, proxied through a
+        gateway on port 3000, with the sample CLI client verifying the agent card comes back.
+    - name: examples/ directory
+      url: https://github.com/agentgateway/agentgateway/tree/main/examples
+      detail: >-
+        ~25 runnable example configurations in the repository, each with a README and most with a
+        docker-compose.yaml - llm-basic, llm-cost-routing, llm-prompt-guard, llm-semantic-routing,
+        mcp-basic, mcp-authentication, mcp-authorization, mcp-multiplex, mcp-openapi, traffic-a2a,
+        traffic-jwt-sign, traffic-oidc, traffic-spiffe, traffic-ratelimiting-global and more.
+audit_modes:
+  - name: Guardrail audit mode
+    setting: 'webhook.action: audit'
+    docs: https://agentgateway.dev/docs/standalone/latest/llm/prompt-guards/webhooks/
+    detail: Runs a prompt guard without blocking - it records what it detects and forwards the content unchanged.
+  - name: failOpen rate limiting
+    setting: 'remoteRateLimit.failureMode: failOpen'
+    docs: https://agentgateway.dev/docs/standalone/latest/configuration/resiliency/rate-limits/#failure-behavior
+    detail: Not a test mode, but the documented way to stop a limiter outage from denying traffic while you evaluate.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

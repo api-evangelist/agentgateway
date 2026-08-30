@@ -1,0 +1,86 @@
+generated: '2026-08-30'
+method: searched
+source: https://agentgateway.dev/docs/standalone/latest/llm/prompt-guards/webhooks/ + .../mcp/guardrails/about/ + .../configuration/traffic-management/extproc/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Agentgateway's webhook surface is INVERTED relative to a typical SaaS: it does not deliver event
+  notifications to subscribers. Instead, agentgateway is the CALLER - it makes a synchronous,
+  in-band callout to an HTTP service you implement, and the response decides what happens to the
+  request or response passing through. That is a real published integration contract with fixed paths
+  and a defined action vocabulary, so it is captured here as a webhook catalog. There is no AsyncAPI
+  document and no event/streaming spec, and none is fabricated.
+asyncapi:
+  published: false
+  note: >-
+    No AsyncAPI document exists for agentgateway. The nearest streaming surfaces are the SSE trace on
+    GET /debug/trace (documented in openapi/agentgateway-debug-api-openapi.yml) and OTLP trace/log
+    export, neither of which is a pub/sub event surface. NEVER generate one.
+event_notifications:
+  published: false
+  note: >-
+    Agentgateway emits no outbound event notifications about its own state. Operational signals leave
+    through Prometheus metrics (port 15020), structured access logs on stdout or over OTLP, and OTLP
+    traces - a telemetry surface, not a webhook subscription.
+webhooks:
+  - name: Guardrail Webhook API - request check
+    direction: outbound-from-agentgateway
+    method: POST
+    default_path: /request
+    target: 'The `host` configured under guardrails.request[].webhook.target'
+    trigger: Every LLM request on a route with a request-side webhook guard, evaluated in band before the request reaches the provider.
+    configurable_path: true
+    path_override: >-
+      Set the `:path` pseudo-header to a CEL expression, e.g. ':path': '"/api/guardrails/request"'.
+      Use it when your service cannot dedicate its root path to the guardrail API.
+    headers: >-
+      The `headers` map sets arbitrary headers (and the :path, :method, :authority pseudo-headers) from
+      CEL expressions evaluated against the ORIGINAL CLIENT REQUEST - so request.*, jwt.* and
+      llmRequest.* refer to what the client sent to the gateway, not to the webhook call. Documented
+      examples forward jwt.sub, request.headers["x-tenant"] and llmRequest.model.
+    actions: [block, redact, modify, alert]
+    actions_note: >-
+      Action names taken from the DeepKeep adapter documentation, which states it "maps DeepKeep block,
+      redact, modify, and alert actions to the Guardrail Webhook API actions that agentgateway
+      understands". The request and response body schemas are NOT published on this page; the
+      Kubernetes guardrail-API guide is cited as the authoring reference and returned 404 on
+      2026-08-30 at /docs/kubernetes/latest/llm/guardrails.md.
+    audit_mode: 'webhook.action: audit records detections and forwards content unchanged.'
+    docs: https://agentgateway.dev/docs/standalone/latest/llm/prompt-guards/webhooks/
+  - name: Guardrail Webhook API - response check
+    direction: outbound-from-agentgateway
+    method: POST
+    default_path: /response
+    target: 'The `host` configured under guardrails.response[].webhook.target'
+    trigger: Every LLM response on a route with a response-side webhook guard, evaluated in band before the response reaches the client.
+    configurable_path: true
+    actions: [block, redact, modify, alert]
+    docs: https://agentgateway.dev/docs/standalone/latest/llm/prompt-guards/webhooks/
+  - name: MCP guardrails (ExtMCP)
+    direction: outbound-from-agentgateway
+    protocol: external authorization / external processing
+    trigger: MCP method calls, gated and optionally mutated by an external policy server.
+    docs: https://agentgateway.dev/docs/standalone/latest/mcp/guardrails/about/
+  - name: External authorization (ext_authz)
+    direction: outbound-from-agentgateway
+    protocol: Envoy ext_authz
+    trigger: Per-request allow/deny decision delegated to an external policy service.
+    docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/external-authz/
+  - name: External processing (ExtProc)
+    direction: outbound-from-agentgateway
+    protocol: Envoy ext_proc
+    trigger: Per-request/response processing delegated to an external service that may mutate the exchange.
+    docs: https://agentgateway.dev/docs/standalone/latest/configuration/traffic-management/extproc/
+reference_implementations:
+  - name: DeepKeep agentgateway webhook adapter
+    url: https://github.com/Deepkeepai/agentgateway-deepkeep-webhook
+    image: ghcr.io/deepkeepai/agentgateway-deepkeep-webhook:latest
+    first_party: false
+    detail: A third-party adapter that exposes the default Guardrail Webhook API paths and forwards checks to DeepKeep's pre-model and post-model moderation endpoints. Cited from agentgateway's own docs.
+gaps:
+  - No published request/response JSON schema for the Guardrail Webhook API - integrators must read a reference implementation.
+  - No signing, timestamp or replay-protection scheme documented for the webhook call.
+  - The Kubernetes guardrail-API page the standalone docs link to returned 404 on 2026-08-30.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

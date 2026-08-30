@@ -1,0 +1,171 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://agentgateway.dev/docs/standalone/latest/operations/debug/ +
+  .../configuration/resiliency/rate-limits/ + .../configuration/security/ + .../observability/ +
+  .../reference/cel/ + openapi/ + https://agentgateway.dev/schema/config
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Cross-cutting runtime semantics for agentgateway's own callable surface - the loopback admin/debug
+  API described in openapi/. Read the `proxy_semantics` section separately: those are conventions
+  agentgateway ENFORCES on traffic passing through it, which is what most integrators actually care
+  about, but they are not properties of calling agentgateway itself.
+surface:
+  name: Admin / debug HTTP API
+  base: http://127.0.0.1:15000
+  configurable_via: adminAddr
+  protocol: HTTP/1.1
+  media_types:
+    - application/json
+    - text/event-stream
+    - application/octet-stream
+  note: >-
+    The published base is a loopback address by design, not a placeholder. There is no hosted
+    agentgateway API - agentgateway.dev serves documentation only (probed 2026-08-30:
+    https://agentgateway.dev/config_dump returns 404).
+auth:
+  style: none
+  detail: Protected by loopback binding rather than a credential. See authentication/agentgateway-authentication.yml.
+idempotency:
+  supported: false
+  header: null
+  detail: >-
+    No Idempotency-Key header, no request-deduplication window and no replay-safe retry contract is
+    documented for the admin API. The two write operations are POST /logging (naturally idempotent - it
+    sets a level, not a delta) and POST /quitquitquit (idempotent only in that a second call reaches a
+    process that is already stopping). NO Idempotency pointer is emitted in apis.yml, because the
+    provider ships no idempotency mechanism.
+pagination:
+  supported: false
+  detail: Every admin endpoint returns a complete document or a stream. No collection endpoint, so no pagination style, cursor or page parameter exists.
+filtering_and_expansion:
+  supported: false
+  detail: >-
+    Only GET /debug/pprof/profile takes parameters - `seconds` (1-300, default 10) and `frequency`
+    (1-1000 Hz, default 100). No field selection, sparse fieldsets or expansion.
+request_id_tracing:
+  supported: true
+  mechanism: OpenTelemetry
+  detail: >-
+    Agentgateway natively exports OTLP traces with a documented span-attribute reference, and writes a
+    structured access-log line per proxied request that can also be exported over OTLP. The admin API
+    itself is not traced; the DATA PLANE is.
+  docs:
+    - https://agentgateway.dev/docs/standalone/latest/observability/traces/setup/
+    - https://agentgateway.dev/docs/standalone/latest/observability/traces/attribute-reference/
+versioning:
+  style: binary release version
+  detail: >-
+    The admin API is unversioned - no /v1 prefix, no version header. Its shape moves with the binary,
+    and the configuration it reports on is pinned instead through the JSON Schema tag URL. See
+    lifecycle/agentgateway-lifecycle.yml.
+error_envelope:
+  format: bare-status
+  problem_json: false
+  detail: >-
+    No RFC 9457 application/problem+json and no documented JSON error body. Failures surface as HTTP
+    status codes. See errors/agentgateway-problem-types.yml.
+rate_limit_signaling:
+  supported: false
+  detail: >-
+    Agentgateway applies no rate limit to its own admin API. It IS a rate limiter for the traffic it
+    proxies - see rate-limits/agentgateway-rate-limits.yml and proxy_semantics below.
+config_contract:
+  schema: https://agentgateway.dev/schema/config
+  local: json-schema/agentgateway-config-schema.json
+  draft: 2020-12
+  title: LocalConfig
+  defs: 302
+  formats:
+    - YAML
+    - JSON
+  editor_directive: '# yaml-language-server: $schema=https://agentgateway.dev/schema/config'
+  detail: >-
+    This is the real contract of agentgateway. Everything an operator does is expressed as a
+    configuration document validated against a first-party JSON Schema, which is why the schema, not
+    the admin API, is the artifact worth reading first. See data-model/agentgateway-data-model.yml.
+reversibility:
+  applicable: true
+  grade: documented
+  grade_rationale: >-
+    Every write on agentgateway's own surface has a stated reversal path EXCEPT the one that matters -
+    /quitquitquit - and no operation states a time window inside which a reversal works, because none
+    of them are time-bounded. `documented`, not `verified`: the reversal paths are real and cited, but
+    there is no stated window to verify against.
+  operations:
+    - operation: POST /logging
+      spec: openapi/agentgateway-logging-api-openapi.yml
+      write: true
+      reversal: POST /logging with the previous level
+      reversal_operation: setLoggingLevel
+      window: unbounded
+      window_stated: false
+      detail: >-
+        Runtime-only and non-persistent. GET /logging first to capture the current filter string, then
+        restart-to-default is also a reversal - the level reverts to whatever the config file sets at
+        startup. An agent should read the level before changing it.
+      docs: https://agentgateway.dev/docs/standalone/latest/operations/debug/#enable-debug-logs
+    - operation: POST /quitquitquit
+      spec: openapi/agentgateway-lifecycle-api-openapi.yml
+      write: true
+      reversal: none
+      window: null
+      window_stated: false
+      irreversible: true
+      detail: >-
+        Graceful shutdown of the proxy process. There is NO API-side undo: bringing agentgateway back
+        requires host or orchestrator access (systemd, Docker, Kubernetes). Under a supervisor that
+        restarts on exit the process returns, but that is the platform reversing it, not the API. An
+        agent must treat this as a terminal action behind a human gate.
+      docs: https://agentgateway.dev/docs/standalone/latest/operations/debug/
+  read_only_operations:
+    - GET /config_dump
+    - GET /logging
+    - GET /memory
+    - GET /debug/tasks
+    - GET /debug/trace
+    - GET /debug/pprof/profile
+    - GET /debug/pprof/heap
+  configuration_reversibility:
+    detail: >-
+      Outside the API, configuration change is fully reversible by file: agentgateway reads a
+      configuration file, and a reload that fails validation keeps the last good configuration rather
+      than stopping the process. As of 1.5 a listener that cannot bind at STARTUP does exit non-zero,
+      so a bad static config is fail-fast on start but fail-safe on reload.
+    docs: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+dry_run_mode:
+  supported: partial
+  detail: >-
+    No dry-run on the admin API. Two adjacent rehearsal surfaces exist in the product: the CEL
+    playground evaluates a policy expression without applying it, and guardrail webhooks support
+    `webhook.action: audit`, which records what a guard detects and forwards the content unchanged.
+    Both let an operator rehearse a policy decision; neither is a dry-run of an API call.
+  docs:
+    - https://agentgateway.dev/docs/standalone/latest/reference/cel/playground/
+    - https://agentgateway.dev/docs/standalone/latest/llm/prompt-guards/webhooks/
+proxy_semantics:
+  note: >-
+    Conventions agentgateway enforces on traffic passing THROUGH it. Included because integrators
+    reading this file are usually asking about these, not about the admin port.
+  rate_limiting:
+    local: In-memory token bucket, per replica; counters are not shared across replicas or restarts.
+    remote: Envoy Rate Limit Service v3 gRPC, with pluggable shared storage.
+    dimensions: [requests, tokens]
+    failure_mode_default: failClosed - the request is denied with 500 Internal Server Error when the remote limiter is unavailable.
+    failure_mode_alternative: failOpen
+    docs: https://agentgateway.dev/docs/standalone/latest/configuration/resiliency/rate-limits/
+  retries: Route-level retry policy.
+  timeouts: Route and backend timeouts.
+  fault_injection: Delay and abort injection for testing.
+  mirroring: Route and backend traffic mirroring.
+  transformations: Request/response transformation and header manipulation driven by CEL.
+  token_accounting: >-
+    Since 1.5 llm.inputTokens and llm.totalTokens are NORMALISED across providers to include
+    cache-read and cache-creation tokens, because Anthropic and Bedrock exclude them while OpenAI,
+    Azure OpenAI and Gemini include them. llm.providerInputTokens / llm.providerTotalTokens carry the
+    provider's unmodified number. A token-based rate limit sized against a provider that excluded
+    cached tokens now fills sooner.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

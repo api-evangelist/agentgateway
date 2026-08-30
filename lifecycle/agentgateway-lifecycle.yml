@@ -1,0 +1,100 @@
+generated: '2026-08-30'
+method: searched
+source: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/ + https://github.com/agentgateway/agentgateway/releases + https://agentgateway.dev/docs/standalone/latest/reference/configuration/validation/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Versioning, release and deprecation posture for agentgateway. Because the product is a binary you
+  run yourself, "lifecycle" is release lifecycle rather than API endpoint lifecycle - there is no
+  hosted service to deprecate an endpoint on, and no status page because there is nothing hosted to
+  have status.
+versioning:
+  scheme: semver
+  current_version: v1.5.0
+  current_version_date: '2026-08-27'
+  channels:
+    - name: stable
+      example: v1.5.0
+    - name: prerelease
+      example: v1.5.0-beta.1
+      note: alpha, beta and rc tags precede each minor.
+    - name: nightly
+      note: >-
+        Nightly builds have no release tag and are not listed on the releases page; the binary is an
+        artifact of a nightly GitHub Actions run.
+  docs_versioning:
+    scheme: version-scoped documentation trees
+    versions:
+      - latest
+      - main
+    note: >-
+      Docs are published per version under /docs/standalone/<version>/ and /docs/kubernetes/<version>/.
+      Retired versions 404 with an in-page redirector that offers the same topic under /latest/.
+  config_schema_pinning:
+    floating: https://agentgateway.dev/schema/config
+    pinned: https://raw.githubusercontent.com/agentgateway/agentgateway/refs/tags/$VERSION/schema/config.json
+    docs: https://agentgateway.dev/docs/standalone/latest/reference/configuration/validation/
+    note: >-
+      The floating schema URL tracks `main`, so a consumer who wants a reproducible validation must pin
+      the tag form. Documented explicitly by the provider.
+release_notes:
+  url: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+  status: 200
+  github: https://github.com/agentgateway/agentgateway/releases
+  structure:
+    - Highlights
+    - Breaking changes
+    - Removed or deprecated
+  note: Each minor's notes carry a Breaking changes section and a Removed or deprecated section, each with an explicit "Actions to take" paragraph.
+deprecation:
+  policy_document: false
+  practice: per-release disclosure
+  url: https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+  headers:
+    sunset: false
+    deprecation: false
+    note: >-
+      RFC 8594 Sunset / Deprecation response headers are not documented anywhere. Agentgateway can
+      of course ADD such headers via a header-manipulation policy, but it does not emit them itself.
+  examples:
+    - item: MODEL_CATALOG_PATHS environment variable
+      status: removed
+      version: '1.5'
+      action: Move each path to the config.modelCatalog list in the configuration file.
+      note: Agentgateway silently ignores the variable after upgrade - a silent break the notes call out.
+    - item: AGENTGATEWAY_LEGACY_LLM_USAGE_TOKEN_SEMANTICS environment variable
+      status: deprecated
+      version: '1.5'
+      window: 'Planned for removal after version 1.5'
+      action: Short-term migration aid restoring pre-1.5 token accounting while you migrate.
+  assessment: >-
+    There is no standing deprecation POLICY (no stated support window, no N-2 guarantee, no sunset
+    header contract). What exists is a consistent, well-written per-release deprecation and removal
+    disclosure with named migration actions and, in at least one case, a stated removal window. The
+    Deprecation pointer in apis.yml points at that release-notes surface and should be read as
+    "deprecations are disclosed here", not "a policy document exists".
+support_policy:
+  published: false
+  note: No stated support window for older minors, and no LTS line. Docs publish only `latest` and `main`.
+sla:
+  published: false
+  note: >-
+    No SLA. Apache-2.0, as-is. Commercial support is available from partners listed on
+    https://agentgateway.dev/enterprise/ (Solo.io enterprise distribution, 24x7 coverage) under
+    separate terms that agentgateway does not publish.
+status_page:
+  published: false
+  probe:
+    - url: https://agentgateway.dev/
+      status: 200
+      note: No status-page link in the site navigation or footer.
+  note: >-
+    Correctly absent - there is no hosted agentgateway service to report status on. NO StatusPage
+    pointer is emitted in apis.yml. A status page would be a false claim, not a missing page.
+deprecated_operations:
+  derived_from: openapi/
+  operations: []
+  note: No operation in the admin API is marked deprecated.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

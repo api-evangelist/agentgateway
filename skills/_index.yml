@@ -1,0 +1,40 @@
+generated: '2026-08-30'
+method: generated
+source: openapi/ + https://agentgateway.dev/docs/standalone/latest/operations/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Packaged Agent Skills for agentgateway. Every operation referenced is a path and method the provider
+  documents in its admin-endpoint table; agentgateway publishes no OpenAPI of its own, so the
+  operation NAMES are ours (assigned in overlays/) while the paths and methods are the provider's.
+  Skills cover the loopback admin surface only - the data plane is configured by file, not called.
+  The provider publishes no AGENTS.md or skills of its own (checked 2026-08-30).
+skills:
+  - name: agentgateway-inspect-running-config
+    file: agentgateway-inspect-running-config.md
+    description: Read what a proxy is actually running, and validate a candidate config against the first-party JSON Schema before changing it.
+    operations: [GET /config_dump, GET /logging]
+    consequence: read
+  - name: agentgateway-change-log-level
+    file: agentgateway-change-log-level.md
+    description: Raise the log level at runtime to diagnose a problem, then put it back - with the read-before-write step that makes the reversal possible.
+    operations: [GET /logging, POST /logging]
+    consequence: write
+    reversible: true
+  - name: agentgateway-trace-and-profile
+    file: agentgateway-trace-and-profile.md
+    description: Trace why a request took the route it took, and profile CPU/heap - including the Linux-only limitation that makes a macOS heap profile silently empty.
+    operations: [GET /debug/trace, GET /debug/tasks, GET /debug/pprof/profile, GET /debug/pprof/heap, GET /memory]
+    consequence: read
+excluded:
+  - operation: POST /quitquitquit
+    reason: >-
+      Graceful shutdown, and irreversible from the API - restarting requires host or orchestrator
+      access. Deliberately NOT packaged as a skill. An agent that can stop a production gateway
+      because a skill made it convenient is a failure mode, not a feature. See the reversibility block
+      in conventions/agentgateway-conventions.yml.
+preconditions:
+  - The admin interface binds to 127.0.0.1:15000 and is unauthenticated. Every skill assumes same-host execution and must never be run against an exposed admin port.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

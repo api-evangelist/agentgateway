@@ -1,0 +1,142 @@
+generated: '2026-08-30'
+method: searched
+source: https://agentgateway.dev/docs/standalone/latest/configuration/security/ (jwt-authn, apikey-authn, basic-authn, oidc, mcp-authn, mcp-authz, external-authz, backend-authn/*) + https://agentgateway.dev/docs/standalone/latest/operations/debug/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Authentication for agentgateway has two distinct sides and they must not be conflated. (1) The
+  ADMIN/DEBUG API this repo describes in openapi/ has NO authentication at all - it is protected by
+  binding to loopback. (2) The gateway's DATA PLANE offers a rich inbound and backend authentication
+  toolkit that YOU configure for the traffic passing through. Nothing here is a credential you obtain
+  from agentgateway; there is no account, no key issuance, no signup.
+admin_api:
+  schemes: []
+  authentication: none
+  transport_protection: loopback-bind
+  default_bind: 127.0.0.1:15000
+  configurable_via: adminAddr
+  applies_to:
+    - openapi/agentgateway-config-api-openapi.yml
+    - openapi/agentgateway-debug-api-openapi.yml
+    - openapi/agentgateway-lifecycle-api-openapi.yml
+    - openapi/agentgateway-logging-api-openapi.yml
+    - openapi/agentgateway-memory-api-openapi.yml
+    - openapi/agentgateway-profiling-api-openapi.yml
+  source: https://agentgateway.dev/docs/standalone/latest/operations/debug/
+  note: >-
+    Verbatim from the docs: "The admin interface binds to the loopback interface, so only a client on
+    the same host can reach it. Keep it that way. Endpoints such as /quitquitquit and /config_dump shut
+    down the proxy and dump its full configuration to any caller that can open a connection." The
+    security model is network placement, not a credential. A derived securityScheme block would be a
+    fabrication - derive-authentication.py correctly produced zero profiles for this repo.
+data_plane_inbound:
+  description: Authentication policies agentgateway can enforce on traffic arriving at a listener or route.
+  methods:
+    - id: jwt
+      name: JWT authentication
+      type: http-bearer
+      attaches_to: [listener, route]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/jwt-authn/
+      detail: >-
+        Validates a bearer JWT against a JWKS URL. Fields: issuer, audiences, jwks, requiredClaims
+        (default ["exp"]). Since 1.5.0 the `iss` claim is REQUIRED when `issuer` is set, and `aud` is
+        REQUIRED when `audiences` is a non-empty list - a behaviour change that rejects tokens that
+        previously passed. Verified claims are exposed to later policies as the CEL `jwt.*` context.
+    - id: apikey
+      name: API key authentication
+      type: apiKey
+      attaches_to: [listener, route]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/apikey-authn/
+      detail: >-
+        Keys carry metadata that later policies can read via the CEL `apiKey` context (for example to
+        set an x-authenticated-user header). Keys created in the admin UI or through the admin API
+        carry agentgateway-managed metadata under the reserved `agentgateway.dev/` prefix - since
+        1.5.0 the identifier moved from metadata.id to metadata["agentgateway.dev/id"], a new
+        metadata["agentgateway.dev/createdAt"] was added, and user-supplied fields using that prefix
+        are rejected. API keys also carry LLM budgets and per-key model access lists.
+    - id: basic
+      name: Basic authentication
+      type: http-basic
+      attaches_to: [listener, route]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/basic-authn/
+    - id: oidc
+      name: OIDC browser authentication
+      type: openIdConnect
+      attaches_to: [route]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/oidc/
+      detail: Interactive browser login, also the documented way to put a login in front of the agentgateway UI.
+    - id: mcp-authn
+      name: MCP authentication
+      type: oauth2
+      attaches_to: [route]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+      detail: >-
+        Applies the MCP authorization spec in front of a fronted MCP server. Returns 401 Unauthorized
+        with a WWW-Authenticate header to unauthenticated callers, and SERVES the discovery documents
+        the client then fetches - /.well-known/oauth-protected-resource/{path} (RFC 9728) and
+        /.well-known/oauth-authorization-server/{path} (RFC 8414), plus a proxied dynamic client
+        registration endpoint (RFC 7591) where the identity provider needs one. Modes: `strict`
+        (default, a valid token from a configured issuer is required) and permissive variants.
+        Provider adapters exist for auth0, authentik, descope, keycloak and okta; Okta requires an
+        explicit `jwks` because it publishes keys at {issuer}/v1/keys.
+    - id: mcp-authz
+      name: MCP authorization
+      type: policy
+      attaches_to: [route, backend]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authz/
+      detail: Per-tool authorization over MCP method calls, evaluated after authentication.
+    - id: external-authz
+      name: External authorization (ext_authz)
+      type: delegated
+      attaches_to: [listener, route, backend]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/external-authz/
+      detail: Delegates the allow/deny decision to an external policy server.
+    - id: network-authz
+      name: Network authorization
+      type: l4-acl
+      attaches_to: [frontend]
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/network-authz/
+      detail: L4 transport-level access control, applied before HTTP policy.
+data_plane_backend:
+  description: How agentgateway authenticates ITSELF to the upstreams it proxies to.
+  methods:
+    - id: static-key
+      name: Static keys and passthrough
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/key/
+    - id: jwt-sign
+      name: Signed JWT assertion (jwtSign)
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/jwt-sign/
+      detail: For upstreams that refuse a durable credential, such as Snowflake.
+    - id: oauth-token-exchange
+      name: OAuth token exchange (RFC 8693)
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/oauth-token-exchange/
+    - id: cross-app-access
+      name: Cross App Access (ID-JAG)
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/cross-app-access/
+    - id: aws
+      name: AWS SigV4 request signing
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/providers/aws/
+    - id: gcp
+      name: Google Cloud credentials
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/providers/gcp/
+    - id: azure
+      name: Microsoft Entra ID token
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/providers/azure/
+    - id: copilot
+      name: GitHub Copilot token
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/providers/copilot/
+    - id: backend-tls
+      name: Backend TLS
+      docs: https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-tls/
+    - id: spiffe
+      name: SPIFFE workload identity mTLS
+      docs: https://github.com/agentgateway/agentgateway/tree/main/examples/traffic-spiffe
+scopes:
+  applicable: false
+  note: >-
+    Agentgateway issues no OAuth scopes of its own. Scopes belong to whichever identity provider a
+    deployment configures; agentgateway validates the resulting token. No scopes/ artifact is written -
+    an empty scope registry would misrepresent the product.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

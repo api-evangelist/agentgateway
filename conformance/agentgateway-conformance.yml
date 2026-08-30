@@ -1,0 +1,248 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://agentgateway.dev/docs/standalone/latest/ (security, mcp, agent, observability and reference
+  sections, fetched as .md) + https://agentgateway.dev/schema/config +
+  https://github.com/agentgateway/agentgateway
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Standards agentgateway implements. Read the entries as claims about the SOFTWARE - agentgateway is a
+  self-hosted proxy, so conformance is a property of what the binary speaks on the wire, evidenced by
+  the documentation page that specifies each behaviour. There is no certification body, audit report or
+  compliance program behind these; see security/agentgateway-trust-center.yml for that (there is none).
+standards:
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    version: '2026-07-28'
+    evidence:
+      - https://agentgateway.dev/blog/2026-08-03-new-mcp-spec-revision/
+      - https://agentgateway.dev/docs/standalone/latest/mcp/about/
+    note: >-
+      v1.4 shipped support for the 2026-07-28 MCP specification revision. Agentgateway is an MCP data
+      plane - it proxies, multiplexes and federates MCP servers rather than operating one.
+  - id: a2a
+    name: Agent2Agent (A2A) protocol
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/agent/a2a/
+      - https://agentgateway.dev/docs/standalone/latest/agent/about/
+    note: >-
+      Routes marked `a2a: {}` proxy A2A JSON-RPC traffic, including agent-card retrieval from the
+      upstream agent. Agentgateway does not publish an agent card of its own - probed 404 at
+      /.well-known/agent-card.json and /.well-known/agent.json on 2026-08-30.
+  - id: kubernetes-gateway-api
+    name: Kubernetes Gateway API
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/kubernetes/
+      - https://agentgateway.dev/blog/2025-07-14-a2a-mcp-gateway-api-0-6-release/
+    note: The Kubernetes deployment model is configured through the standard Gateway API rather than a bespoke CRD set.
+  - id: oauth2
+    name: OAuth 2.0 / 2.1
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/oauth-token-exchange/
+    note: >-
+      Enforces bearer-token auth on MCP routes (strict mode rejects with 401 Unauthorized) and performs
+      RFC 8693 token exchange for backend authentication.
+  - id: rfc8414
+    name: 'RFC 8414: OAuth 2.0 Authorization Server Metadata'
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+    note: >-
+      Agentgateway serves the path-based /.well-known/oauth-authorization-server/{path} form to MCP
+      clients, and falls back to OIDC discovery for providers (authentik, Descope, Keycloak, Okta)
+      that do not implement it.
+  - id: rfc9728
+    name: 'RFC 9728: OAuth 2.0 Protected Resource Metadata'
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+    note: Serves /.well-known/oauth-protected-resource/{path} for the MCP servers it fronts.
+  - id: rfc7591
+    name: 'RFC 7591: OAuth 2.0 Dynamic Client Registration'
+    conforms: partial
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+    note: >-
+      Proxies or injects a DCR endpoint per identity provider - required because open source authentik
+      does not implement RFC 7591 and Keycloak restricts CORS on its registration endpoint. Partial
+      because behaviour is provider-specific, per the provider table in the docs.
+  - id: rfc8707
+    name: 'RFC 8707: Resource Indicators for OAuth 2.0'
+    conforms: partial
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/mcp-authn/
+    note: >-
+      Supported as the default path; agentgateway appends the first audience to the authorization
+      endpoint for Auth0 and Okta because those providers do not support RFC 8707.
+  - id: oidc
+    name: OpenID Connect
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/oidc/
+      - https://agentgateway.dev/docs/standalone/latest/setup/ui/secure-ui/
+    note: Browser OIDC policy authenticates users in front of routes and the admin UI; discovery via {issuer}/.well-known/openid-configuration.
+  - id: rfc7519
+    name: 'RFC 7519 / RFC 7517: JSON Web Token and JWKS'
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/jwt-authn/
+      - https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+    note: >-
+      JWT validation against a JWKS URL, with issuer/audience/required-claim enforcement. As of 1.5 the
+      `iss` claim is required whenever `issuer` is set, and `aud` whenever `audiences` is non-empty.
+  - id: rfc8693
+    name: 'RFC 8693: OAuth 2.0 Token Exchange'
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/oauth-token-exchange/
+      - https://agentgateway.dev/blog/2026-07-12-agentgateway-token-exchange-jwt-assertion-entra-obo/
+    note: Backend authentication exchanges the caller's token for an upstream credential; also supports Entra on-behalf-of and signed-JWT assertion.
+  - id: id-jag
+    name: Identity Assertion Authorization Grant (Cross App Access)
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/backend-authn/cross-app-access/
+    note: The `crossAppAccess` backend authentication method implements the OAuth ID-JAG cross-app-access flow.
+  - id: rfc7617
+    name: 'RFC 7617: HTTP Basic authentication'
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/basic-authn/
+  - id: cors
+    name: 'Fetch / CORS'
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/cors/
+  - id: spiffe
+    name: SPIFFE / SPIRE workload identity
+    conforms: true
+    evidence:
+      - https://github.com/agentgateway/agentgateway/tree/main/examples/traffic-spiffe
+      - https://agentgateway.dev/schema/config
+    note: LocalSpiffeConfig and LocalSpiffeBackendTLS are first-class configuration types in the published config schema.
+  - id: opentelemetry
+    name: OpenTelemetry / OTLP
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/observability/traces/setup/
+      - https://agentgateway.dev/docs/standalone/latest/observability/access-logs/export/
+    note: Native OTLP export of distributed traces and access logs, with a documented span-attribute reference.
+  - id: prometheus
+    name: Prometheus exposition format
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/observability/metrics/overview/
+      - https://agentgateway.dev/docs/standalone/latest/observability/metrics/reference/
+    note: Prometheus-compatible metrics endpoint on port 15020, with a published metrics reference.
+  - id: json-schema-2020-12
+    name: JSON Schema draft 2020-12
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/schema/config
+      - https://agentgateway.dev/docs/standalone/latest/reference/configuration/validation/
+    note: >-
+      The configuration file is described by a first-party JSON Schema (title LocalConfig, 302 $defs)
+      served at a stable URL and version-pinnable at
+      https://raw.githubusercontent.com/agentgateway/agentgateway/refs/tags/$VERSION/schema/config.json.
+      Editors validate against it with the yaml-language-server directive.
+  - id: cel
+    name: Common Expression Language (CEL)
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/reference/cel/cel-context/
+    note: Policy conditions, transformations and header values are CEL expressions, with a published variable/function reference and an in-product playground.
+  - id: envoy-rls
+    name: Envoy Rate Limit Service (RLS) gRPC API
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/resiliency/rate-limits/
+    note: Remote rate limiting speaks the Envoy RLS v3 gRPC protocol so existing Envoy rate limiters can be reused.
+  - id: extproc
+    name: Envoy External Processing (ext_proc) and External Authorization (ext_authz)
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/configuration/traffic-management/extproc/
+      - https://agentgateway.dev/docs/standalone/latest/configuration/security/external-authz/
+  - id: grpc
+    name: gRPC
+    conforms: true
+    evidence:
+      - https://github.com/agentgateway/agentgateway
+    note: Routes and proxies gRPC alongside HTTP; the README describes agentgateway as an HTTP and gRPC proxy.
+  - id: openapi
+    name: OpenAPI
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/mcp/connect/openapi/
+    note: >-
+      Consumes an OpenAPI document to expose a REST API as MCP tools. Agentgateway does not PUBLISH an
+      OpenAPI for itself; the specs under openapi/ in this repo were written by API Evangelist from the
+      documented admin-endpoint table, not harvested from the provider.
+  - id: openai-api
+    name: OpenAI Chat Completions / Responses / Realtime wire formats
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/llm/api-types/completions/
+      - https://agentgateway.dev/docs/standalone/latest/llm/api-types/responses/
+      - https://agentgateway.dev/docs/standalone/latest/llm/api-types/realtime/
+    note: Accepts and emits the OpenAI wire formats as an inbound API surface, and translates between them and other providers' formats.
+  - id: anthropic-messages
+    name: Anthropic Messages API wire format
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/llm/api-types/messages/
+  - id: gemini-api
+    name: Google Gemini / Vertex AI wire format
+    conforms: true
+    evidence:
+      - https://agentgateway.dev/docs/standalone/latest/reference/release-notes/
+    note: v1.5 added a native Gemini inbound API so Gemini and Vertex AI SDK clients can call agentgateway directly.
+  - id: semver
+    name: Semantic Versioning
+    conforms: true
+    evidence:
+      - https://github.com/agentgateway/agentgateway/releases
+    note: Releases are vMAJOR.MINOR.PATCH with alpha/beta/rc prerelease tags; breaking changes are called out per minor.
+  - id: rfc9457
+    name: 'RFC 9457: Problem Details for HTTP APIs'
+    conforms: false
+    evidence:
+      - openapi/
+      - https://agentgateway.dev/docs/standalone/latest/operations/debug/
+    note: >-
+      No application/problem+json is documented anywhere in the admin API or the proxy error paths.
+      Errors surface as bare HTTP status codes. See errors/agentgateway-problem-types.yml.
+domain_standard:
+  market: AI gateway / agent infrastructure
+  declared: true
+  standards:
+    - mcp
+    - a2a
+    - kubernetes-gateway-api
+  evidence:
+    - >-
+      https://agentgateway.dev/schema/config declares first-class `mcp`, `llm` and A2aPolicy sections
+      and LocalMcpBackend / LocalMcpTarget / LocalMcpAuthentication types - the domain standards of
+      this market are named in the CONTRACT, not only in marketing prose.
+    - https://agentgateway.dev/blog/2026-08-03-new-mcp-spec-revision/
+  note: >-
+    An agent-infrastructure buyer who already speaks MCP, A2A and the Kubernetes Gateway API integrates
+    with no bespoke connector. Agentgateway is a governing member of this standards surface rather than
+    a consumer of it - it joined the Agentic AI Foundation and was contributed to the Linux Foundation
+    by Solo.io in August 2025.
+compliance_programs:
+  published: false
+  note: >-
+    No SOC 2, ISO 27001, PCI, HIPAA or FedRAMP claim is made anywhere on agentgateway.dev. That is the
+    expected posture for a self-hosted Apache-2.0 project under LF Projects, LLC - the compliance
+    boundary belongs to whoever deploys it, or to a commercial distributor (Solo.io) under separate
+    terms. NO Compliance pointer is emitted.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

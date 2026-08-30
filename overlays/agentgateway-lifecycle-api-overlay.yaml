@@ -1,0 +1,35 @@
+generated: '2026-08-30'
+method: generated
+source: openapi/agentgateway-lifecycle-api-openapi.yml
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for AgentGateway Admin / Debug Config Lifecycle API
+  version: 1.0.0
+extends: openapi/agentgateway-lifecycle-api-openapi.yml
+actions:
+- target: $.paths['/quitquitquit'].post
+  description: Assign a stable operationId and link the operation to its source documentation.
+  update:
+    operationId: shutdownGateway
+    externalDocs:
+      description: agentgateway documentation
+      url: https://agentgateway.dev/docs/standalone/latest/operations/debug/
+- target: $.info
+  description: Record that the admin interface is loopback-only and must not be exposed, as the agentgateway documentation
+    states.
+  update:
+    x-admin-interface:
+      bind: 127.0.0.1:15000
+      configurable_via: adminAddr
+      exposure: loopback-only
+      warning: /config_dump discloses the full running configuration and /quitquitquit stops the proxy; both are
+        unauthenticated to any caller that can open a connection.
+      source: https://agentgateway.dev/docs/standalone/latest/operations/debug/
+- target: $.info
+  description: Link the first-party configuration JSON Schema that describes everything this admin API reports on.
+  update:
+    x-config-schema:
+      url: https://agentgateway.dev/schema/config
+      title: LocalConfig
+      draft: 2020-12
+      local: json-schema/agentgateway-config-schema.json

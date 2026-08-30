@@ -1,0 +1,225 @@
+generated: '2026-08-30'
+method: derived
+source: json-schema/agentgateway-config-schema.json (verbatim from https://agentgateway.dev/schema/config)
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  The agentgateway entity graph, derived by walking $ref edges in the provider's own configuration
+  JSON Schema (title LocalConfig, draft 2020-12, 302 $defs). This is the product's real data model:
+  agentgateway has no resource API with ids and CRUD, so its entities are configuration objects, and
+  the relationships below are containment and reference edges in that document rather than foreign
+  keys. Names are the schema's own $defs names, unmodified.
+schema:
+  url: https://agentgateway.dev/schema/config
+  pinned_url: https://raw.githubusercontent.com/agentgateway/agentgateway/refs/tags/$VERSION/schema/config.json
+  local: json-schema/agentgateway-config-schema.json
+  title: LocalConfig
+  draft: 2020-12
+  definition_count: 302
+  formats: [YAML, JSON]
+root_sections:
+  - name: config
+    type: RawConfig
+    description: Startup-only settings for DNS, admin, networking, observability and session management. Only modelCatalog reloads dynamically.
+  - name: binds
+    type: LocalBind
+    description: The low-level port bindings agentgateway listens on.
+  - name: gateways
+    type: LocalGateway
+    description: The simplified gateway form - a named port with listeners and policies attached directly.
+  - name: listeners
+    type: LocalListener
+    description: Entrypoints for traffic, reached through a bind or a gateway.
+  - name: routes
+    type: LocalAttachedRoute
+    description: Match rules that select a backend.
+  - name: routeGroups
+    type: LocalRouteGroup
+    description: Named collections of routes, used for route delegation from a parent route.
+  - name: tcpRoutes
+    type: LocalAttachedTCPRoute
+    description: L4 routes.
+  - name: backends
+    type: FullLocalBackend
+    description: Destinations that receive traffic.
+  - name: policies
+    type: LocalPolicy
+    description: Reusable policies attached at gateway, listener, route or backend scope.
+  - name: frontendPolicies
+    type: LocalFrontendPolicies
+    description: Policies applied at the frontend, including access logging and L4 network authorization.
+  - name: llm
+    type: LocalLLMConfig
+    description: The simplified LLM-consumption form - providers, models, virtual models and their policies on a dedicated port.
+  - name: mcp
+    type: LocalSimpleMcpConfig
+    description: The simplified MCP form - MCP targets, statefulness, prefixing and failure behaviour on a dedicated port.
+  - name: ui
+    type: LocalUIConfig
+    description: The admin UI, served on the port of any gateway listed here.
+  - name: workloads
+    type: null
+    description: Workload entries, used by the Kubernetes control-plane model.
+  - name: services
+    type: null
+    description: Service entries, used by the Kubernetes control-plane model.
+entities:
+  - name: LocalBind
+    fields: [port, protocol, listeners, tunnelProtocol, mode]
+  - name: LocalGateway
+    fields: [port, protocol, listeners, tls, oidc, jwtAuth, authorization, extAuthz, extProc, cors, transformations, basicAuth, apiKey]
+  - name: LocalListener
+    fields: [name, namespace, hostname, protocol, tls, routes, tcpRoutes, policies]
+  - name: LocalRoute
+    fields: [name, namespace, ruleName, hostnames, matches, policies, backends]
+  - name: LocalRouteBackend
+    fields: [weight, policies]
+  - name: LocalRouteGroup
+    fields: [name, routes]
+  - name: FullLocalBackend
+    fields: [name, policies]
+  - name: LocalMcpBackend
+    fields: [targets, statefulMode, prefixMode, failureMode, dnsRebindingProtection]
+  - name: LocalMcpTarget
+    fields: [name, policies]
+  - name: LocalSimpleMcpConfig
+    fields: [gateways, port, targets, statefulMode, prefixMode, failureMode, dnsRebindingProtection, policies]
+  - name: LocalLLMConfig
+    fields: [gateways, port, tls, providers, models, virtualModels, policies]
+  - name: LocalLLMModels
+    fields: [id, name, visibility, params, provider, passthrough, authorization, defaults, overrides, transformation, finalTransformation, requestHeaders, responseHeaders, backendTLS, tls, auth]
+  - name: LocalLLMVirtualModel
+    fields: [routing across one or more backing models - weighted, failover and conditional variants]
+relationships:
+  - from: LocalConfig
+    to: LocalBind
+    type: has_many
+    via: binds
+  - from: LocalConfig
+    to: LocalGateway
+    type: has_many
+    via: gateways
+  - from: LocalBind
+    to: LocalListener
+    type: has_many
+    via: listeners
+  - from: LocalGateway
+    to: LocalGatewayListener
+    type: has_many
+    via: listeners
+  - from: LocalListener
+    to: LocalRoute
+    type: has_many
+    via: routes
+  - from: LocalListener
+    to: LocalTCPRoute
+    type: has_many
+    via: tcpRoutes
+  - from: LocalRoute
+    to: LocalRouteBackend
+    type: has_many
+    via: backends
+  - from: LocalRouteGroup
+    to: LocalRoute
+    type: has_many
+    via: routes
+  - from: LocalRoute
+    to: LocalRouteGroup
+    type: belongs_to
+    via: route delegation from a parent route to a child route group
+  - from: LocalRouteBackend
+    to: FullLocalBackend
+    type: belongs_to
+    via: backend reference (host, service or named backend)
+  - from: LocalMcpBackend
+    to: LocalMcpTarget
+    type: has_many
+    via: targets
+  - from: LocalLLMConfig
+    to: LocalLLMProvider
+    type: has_many
+    via: providers
+  - from: LocalLLMConfig
+    to: LocalLLMModels
+    type: has_many
+    via: models
+  - from: LocalLLMConfig
+    to: LocalLLMVirtualModel
+    type: has_many
+    via: virtualModels
+  - from: LocalLLMVirtualModel
+    to: LocalLLMModels
+    type: has_many
+    via: weighted, failover and conditional routing targets
+  - from: LocalLLMModels
+    to: LocalLLMProvider
+    type: belongs_to
+    via: provider
+  - from: LocalListener
+    to: LocalPolicy
+    type: has_many
+    via: policies
+  - from: LocalRoute
+    to: LocalPolicy
+    type: has_many
+    via: policies
+  - from: FullLocalBackend
+    to: SimpleLocalBackendPolicies
+    type: has_many
+    via: policies
+  - from: LocalConfig
+    to: LocalUIConfig
+    type: has_one
+    via: ui
+  - from: LocalUIConfig
+    to: LocalGateway
+    type: belongs_to
+    via: the gateway whose port serves the UI
+most_referenced_types:
+  note: Fan-in counts across all 302 $defs - the types the schema leans on hardest.
+  types:
+    - type: Expression
+      referenced_by: 31
+      description: A CEL expression. The single most reused type in the schema, which is why the CEL reference is effectively part of the data model.
+    - type: SimpleLocalBackendPolicies
+      referenced_by: 19
+    - type: NamespacedHostname
+      referenced_by: 16
+    - type: AuthorizationLocation
+      referenced_by: 12
+    - type: FileOrInline
+      referenced_by: 9
+    - type: Authorization
+      referenced_by: 8
+    - type: LocalBackendTLS
+      referenced_by: 7
+    - type: LocalJwtConfig
+      referenced_by: 6
+    - type: LocalOidcConfig
+      referenced_by: 6
+    - type: LocalAPIKeys
+      referenced_by: 6
+    - type: LocalBasicAuth
+      referenced_by: 6
+    - type: CorsSerde
+      referenced_by: 6
+    - type: HeaderModifier
+      referenced_by: 6
+identifiers:
+  scheme: names, not opaque ids
+  detail: >-
+    Entities are addressed by `name` (and `namespace` where the Kubernetes model applies), not by a
+    generated id with a type prefix. The one id-like surface is LLM API key metadata, where
+    agentgateway manages metadata["agentgateway.dev/id"] and metadata["agentgateway.dev/createdAt"]
+    under a reserved prefix that user metadata may not use (1.5.0 onward).
+configuration_modes:
+  note: >-
+    The schema deliberately carries two spellings of the same model. The `binds`/`listeners`/`routes`
+    tree is the full routing form; `gateways`, `llm` and `mcp` are simplified forms that expand into
+    it. Docs show both in tabbed examples. A reader mapping this graph should expect the same concept
+    to appear twice under different names.
+  docs: https://agentgateway.dev/docs/standalone/latest/llm/configuration-modes/
+render: null
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

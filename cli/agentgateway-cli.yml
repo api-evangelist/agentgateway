@@ -1,0 +1,86 @@
+generated: '2026-08-30'
+method: searched
+source: https://agentgateway.dev/docs/standalone/latest/operations/agctl/ + https://agentgateway.dev/docs/standalone/latest/reference/agctl/
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  agctl is agentgateway's first-party command-line tool. It wraps the loopback admin endpoints that
+  openapi/ describes and renders them in formats that are easier to read than raw JSON, and it works
+  against agentgateway running either in Kubernetes or as a standalone binary on a workstation. The
+  docs mark agctl EXPERIMENTAL and explicitly not supported for production.
+cli:
+  name: agctl
+  status: experimental
+  status_note: >-
+    Verbatim from the docs: "This feature is experimental. Try it out, see how it helps, and provide us
+    feedback in GitHub or Discord. But keep in mind that it is subject to change and not supported for
+    production."
+  docs: https://agentgateway.dev/docs/standalone/latest/operations/agctl/
+  reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/
+  version: v1.5.0
+  released: '2026-08-27'
+  language: Go
+  source: https://github.com/agentgateway/agentgateway/tree/main/controller/cmd/agctl
+  global_flags:
+    - flag: -h, --help
+      description: Help for agctl.
+    - flag: -k, --kubeconfig
+      description: Path to the kubeconfig used to reach agentgateway in Kubernetes.
+  prerequisites:
+    - Graphviz, if you plan to use agctl for profile investigation.
+    - Go 1.22 or later and Git, only if building from source.
+install:
+  - method: binary-linux
+    command: curl -sL https://github.com/agentgateway/agentgateway/releases/latest/download/agctl-linux-amd64 -o agctl && chmod +x agctl && sudo mv agctl /usr/local/bin/agctl
+  - method: binary-macos-intel
+    command: curl -sL https://github.com/agentgateway/agentgateway/releases/latest/download/agctl-darwin-amd64 -o agctl
+  - method: binary-macos-arm
+    command: curl -sL https://github.com/agentgateway/agentgateway/releases/latest/download/agctl-darwin-arm64 -o agctl
+  - method: binary-windows
+    command: Download agctl-windows-amd64.exe from the releases page and add it to your PATH.
+  - method: source
+    command: go install ./controller/cmd/agctl
+commands:
+  - command: agctl proxy trace
+    description: Capture a tap-style trace of the next request the proxy handles, rendered in an interactive TUI by default. --raw prints JSON Lines; --local targets a local binary.
+    backing_endpoint: GET /debug/trace
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-proxy-trace/
+  - command: agctl proxy config
+    description: Retrieve the runtime configuration a proxy has loaded, including binds, listeners, routes, backends, workloads and services.
+    backing_endpoint: GET /config_dump
+    subcommands:
+      - agctl proxy config all
+      - agctl proxy config backends
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-proxy-config/
+  - command: agctl proxy log
+    description: Get or set proxy log levels at runtime.
+    backing_endpoint: GET /logging, POST /logging
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-proxy-log/
+  - command: agctl proxy profile
+    description: Collect a CPU or heap pprof profile from a proxy and write it to a file.
+    backing_endpoint: GET /debug/pprof/profile, GET /debug/pprof/heap
+    subcommands:
+      - agctl proxy profile cpu
+      - agctl proxy profile heap
+    note: Profiling data is Linux-only. On macOS and Windows builds `agctl proxy profile cpu` fails with 404 and the heap profile contains no allocation samples.
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-proxy-profile/
+  - command: agctl controller log
+    description: Get or set controller log levels at runtime.
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-controller-log/
+  - command: agctl catalog
+    description: Manage the model catalogs that price LLM requests, including importing catalog data from supported pricing sources.
+    subcommands:
+      - agctl catalog import
+    note: Renamed from `agctl costs` in v1.5.
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-catalog/
+  - command: agctl migrate
+    description: Migrate agentgateway resources to newer configurations.
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-migrate/
+  - command: agctl version
+    description: Print version information for the agctl CLI.
+    reference: https://agentgateway.dev/docs/standalone/latest/reference/agctl/agctl-version/
+  - command: agctl completion
+    description: Turn on shell autocompletion for bash, zsh, fish or powershell.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

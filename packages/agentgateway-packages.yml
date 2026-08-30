@@ -1,0 +1,113 @@
+generated: '2026-08-30'
+method: searched
+source: https://agentgateway.dev/docs/standalone/latest/setup/install/ + https://github.com/agentgateway/agentgateway/releases + container registry tag lists
+provider: AgentGateway
+providerId: agentgateway
+description: >-
+  Distribution channels for agentgateway. Agentgateway is a self-hosted Rust proxy, not a hosted API,
+  so it publishes runnable artifacts (binaries, container images, a Helm chart) rather than client SDKs.
+  There is no first-party client library on npm, PyPI, crates.io, Maven Central, NuGet, RubyGems,
+  Packagist or pkg.go.dev - clients speak the OpenAI / Anthropic / Gemini, MCP and A2A wire protocols
+  that agentgateway proxies, using each protocol's own ecosystem SDKs.
+packages:
+  - name: agentgateway
+    registry: container
+    official: true
+    url: https://agentgateway.dev/docs/standalone/latest/setup/install/docker/
+    image: cr.agentgateway.dev/agentgateway
+    install: docker run -d cr.agentgateway.dev/agentgateway:v1.5.0
+    version: v1.5.0
+    published: '2026-08-27'
+    note: >-
+      The official container image registry named by the install docs. The version and date are the
+      current GitHub release tag (v1.5.0, published 2026-08-27); cr.agentgateway.dev serves the
+      registry v2 API but returned an empty tag list to an anonymous caller, so the tag list itself
+      could not be enumerated.
+  - name: agentgateway
+    registry: ghcr
+    official: true
+    url: https://github.com/agentgateway/agentgateway/pkgs/container/agentgateway
+    image: ghcr.io/agentgateway/agentgateway
+    version: 0.8.2
+    published: null
+    note: >-
+      Legacy GHCR mirror. Anonymous tag list returns 100 tags topping out at 0.8.2 / 0.8.2-musl -
+      superseded by cr.agentgateway.dev for the 1.x line. No published date is exposed by the
+      registry tags endpoint. Retained because published install instructions in older releases
+      point here.
+  - name: agentgateway
+    registry: github-releases
+    official: true
+    url: https://github.com/agentgateway/agentgateway/releases
+    install: curl -sL https://agentgateway.dev/install | bash
+    artifacts:
+      - agentgateway-darwin-arm64
+      - agentgateway-darwin-amd64
+      - agentgateway-linux-amd64
+      - agentgateway-windows-amd64.exe
+    version: v1.5.0
+    published: '2026-08-27'
+    note: >-
+      The agentgateway proxy binary. https://agentgateway.dev/install (302) is the first-party install
+      script; --version pins a release tag. Version and date read from the GitHub releases API.
+  - name: agctl
+    registry: github-releases
+    official: true
+    url: https://github.com/agentgateway/agentgateway/releases
+    install: curl -sL https://github.com/agentgateway/agentgateway/releases/latest/download/agctl-linux-amd64 -o agctl
+    artifacts:
+      - agctl-linux-amd64
+      - agctl-darwin-amd64
+      - agctl-darwin-arm64
+      - agctl-windows-amd64.exe
+    version: v1.5.0
+    published: '2026-08-27'
+    note: >-
+      The agentgateway CLI. Shipped in the same release as the proxy, so it carries the same version
+      and date. Also installable from source with `go install ./controller/cmd/agctl` (Go 1.22+).
+      Documented as experimental. See cli/agentgateway-cli.yml.
+  - name: agentgateway-standalone
+    registry: oci-helm
+    official: true
+    url: https://agentgateway.dev/docs/standalone/latest/setup/install/helm/
+    chart: oci://cr.agentgateway.dev/charts/agentgateway-standalone
+    install: helm install agentgateway-standalone oci://cr.agentgateway.dev/charts/agentgateway-standalone
+    version: null
+    published: null
+    note: >-
+      Helm chart for the standalone deployment model, named verbatim in the install docs. An OCI
+      chart has no package-registry metadata endpoint; the anonymous cr.agentgateway.dev token
+      endpoint returned "invalid token" for the charts/agentgateway-standalone scope, so the chart
+      version could not be read. Checked, nothing to record - not a guess.
+name_collisions:
+  - name: agentgateway
+    registry: pypi
+    url: https://pypi.org/project/agentgateway/
+    official: false
+    version: 1.1.9
+    published: '2024-12-11'
+    note: >-
+      NOT this project. The PyPI name `agentgateway` is held by an unrelated project by Santosh Ameti
+      (Homepage https://github.com/santoshameti/agentgateway, author santosh.ameti@gmail.com,
+      summary "A centralized framework to use a model of your choice for your agentic usecases").
+      Recorded so a future pass does not credit it to this provider. An installer typo here reaches
+      third-party code.
+absent:
+  - registry: npm
+    checked:
+      - agentgateway
+      - '@agentgateway/agentgateway'
+      - agentgateway-cli
+    result: 404 on all three
+  - registry: crates.io
+    checked:
+      - agentgateway
+      - agent-gateway
+    result: 404 - the Rust source is not published as a crate
+  - registry: docker-hub
+    checked:
+      - agentgateway/agentgateway
+    result: 404 object not found
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
