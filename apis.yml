@@ -225,7 +225,7 @@ common:
 - type: WellKnown-probe
   url: well-known/agentgateway-well-known.yml
   note: Probe record only - every /.well-known path 404s. Deliberately NOT type WellKnown, which would assert a served document.
-- type: MCPServer-candidate
+- type: X-MCPServerCandidate
   url: mcp/agentgateway-mcp.yml
   note: Derived candidate only - agentgateway ships no MCP server of its own. Deliberately NOT type MCPServer.
 - type: IssueTracker
