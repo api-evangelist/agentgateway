@@ -5,12 +5,10 @@
       "source": "https://agentgateway.dev/blog/index.xml",
       "feed_url": "https://agentgateway.dev/blog/index.xml",
       "saved": 0,
-      "error": "no_feed_no_posts",
-      "nature": "vendor-blog",
-      "nature_basis": "path_blog"
+      "error": "no_feed_no_posts"
     }
   ],
-  "fetched": "2026-08-30T22:33:40Z",
+  "fetched": "2026-09-06T19:17:18Z",
   "post_count": 23,
   "feed_nature": "vendor-blog",
   "feed_nature_basis": "path_blog",
