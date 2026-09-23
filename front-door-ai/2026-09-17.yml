@@ -1,0 +1,36 @@
+# Front Door AI Index — agentgateway — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: agentgateway
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: agentgateway.dev
+  final_host: agentgateway.dev
+  ownership: own
+  owner: agentgateway
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 85
+  host_score: 85
+  density: 44.74
+  words: 1900
+  tiers:
+    agentic: 43
+    core: 33
+    model: 9
+  ambiguous: 27
+  top_terms:
+    agent: 27
+    MCP: 24
+    AI: 20
+    LLMs: 13
+    prompts: 6
+    agentic: 5
+    inference: 4
+    OpenAI: 3
+    AI agent: 2
+    Gemini: 2
+    Anthropic: 1
+    Bedrock: 1

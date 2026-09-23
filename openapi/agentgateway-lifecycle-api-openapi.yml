@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: AgentGateway Admin / Debug Config Lifecycle API
+  title: AgentGateway Admin / Debug Lifecycle API
   version: 1.0.0
   description: AgentGateway exposes a local admin and debug HTTP API on its administrative bind address (default 127.0.0.1:15000) for inspecting runtime configuration, controlling logging, profiling, and triggering graceful shutdown. AgentGateway also forwards LLM, MCP and A2A traffic to upstream providers via dynamic routes, but those routes are user-configured rather than fixed paths.
   contact:
@@ -20,3 +20,5 @@ paths:
       responses:
         '200':
           description: Shutdown initiated
+      operationId: postQuitquitquit
+      x-operation-id-source: derived

@@ -6,6 +6,15 @@ artifacts:
   agentic-access/agentgateway-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  authentication/agentgateway-authentication.yml:
+    method: searched
+    evidence: declared in the artifact
+  changelog/agentgateway-changelog.yml:
+    method: searched
+    evidence: declared in the artifact
+  cli/agentgateway-cli.yml:
+    method: searched
+    evidence: declared in the artifact
   collections/agentgateway-config-api.opencollection.json:
     method: derived
     evidence: openapi/agentgateway-config-api
@@ -48,6 +57,18 @@ artifacts:
   collections/agentgateway.postman_collection.json:
     method: derived
     evidence: openapi/agentgateway
+  conformance/agentgateway-conformance.yml:
+    method: searched
+    evidence: declared in the artifact
+  conventions/agentgateway-conventions.yml:
+    method: searched
+    evidence: declared in the artifact
+  data-model/agentgateway-data-model.yml:
+    method: derived
+    evidence: declared in the artifact
+  errors/agentgateway-problem-types.yml:
+    method: derived
+    evidence: declared in the artifact
   examples/agentgateway-llm-backend-example.json:
     method: unknown
     evidence: no authorship recorded
@@ -61,6 +82,9 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   json-ld/agentgateway-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/agentgateway-config-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/agentgateway-llm-backend-schema.json:
@@ -81,70 +105,7 @@ artifacts:
   json-structure/agentgateway-route-structure.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T094130.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T182523.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-26T223651.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T083119.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T190208.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T115055.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T170848.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T172558.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T192327.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T200725.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T133250.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T151044.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T162206.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T202106.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163141.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163302.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T171935.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T113057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T161012.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-04T083143.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-05T153418.yml:
+  kin/checks-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-06T210741.yml:
@@ -228,39 +189,144 @@ artifacts:
   kin/score-2026-08-28T221322.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-29T213958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-29T230545.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T203505.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T220315.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-31T223420.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T063623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T210448.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T222808.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T224043.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T161828.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T174231.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T062714.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T212454.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T224856.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T055819.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T072335.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/agentgateway-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
   llms/agentgateway-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
+  mcp/agentgateway-mcp.yml:
+    method: derived
+    evidence: declared in the artifact
+  openapi/_original/agentgateway-openapi.yml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
   openapi/agentgateway-config-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/agentgateway-debug-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/agentgateway-lifecycle-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/agentgateway-logging-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/agentgateway-memory-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/agentgateway-profiling-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  plans/agentgateway-plans-pricing.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/agentgateway-config-api-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  rate-limits/agentgateway-rate-limits.yml:
+  overlays/agentgateway-debug-api-overlay.yaml:
     method: generated
+    evidence: declared in the artifact
+  overlays/agentgateway-lifecycle-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/agentgateway-logging-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/agentgateway-memory-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/agentgateway-profiling-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  packages/agentgateway-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/agentgateway-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
+  rate-limits/agentgateway-rate-limits.yml:
+    method: searched
     evidence: declared in the artifact
   rules/agentgateway-jsonschema-spectral-rules.yml:
     method: generated
     evidence: declared in the artifact
+  sandbox/agentgateway-sandbox.yml:
+    method: searched
+    evidence: declared in the artifact
   security/agentgateway-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
+  security/agentgateway-vulnerability-disclosure.yml:
+    method: searched
+    evidence: declared in the artifact
+  skills/_index.yml:
+    method: generated
+    evidence: declared in the artifact
+  skills/agentgateway-change-log-level.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/agentgateway-inspect-running-config.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/agentgateway-trace-and-profile.md:
+    method: generated
+    evidence: declared in the artifact
   vocabulary/agentgateway-vocabulary.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  webhooks/agentgateway-webhooks.yml:
+    method: searched
+    evidence: declared in the artifact
+  well-known/agentgateway-well-known.yml:
     method: unknown
     evidence: no authorship recorded

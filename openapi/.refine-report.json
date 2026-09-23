@@ -1,12 +1,7 @@
 {
   "provider": "agentgateway",
   "sources": [
-    "agentgateway-config-api-openapi.yml",
-    "agentgateway-debug-api-openapi.yml",
-    "agentgateway-lifecycle-api-openapi.yml",
-    "agentgateway-logging-api-openapi.yml",
-    "agentgateway-memory-api-openapi.yml",
-    "agentgateway-profiling-api-openapi.yml"
+    "_original/agentgateway-openapi.yml"
   ],
   "outputs": [
     "agentgateway-config-api-openapi.yml",
@@ -20,7 +15,16 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "agentgateway-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "agentgateway-config-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "agentgateway-debug-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "agentgateway-lifecycle-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "agentgateway-logging-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "agentgateway-memory-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "agentgateway-profiling-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

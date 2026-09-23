@@ -20,3 +20,5 @@ paths:
       responses:
         '200':
           description: Current runtime configuration
+      operationId: getConfigDump
+      x-operation-id-source: derived
