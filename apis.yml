@@ -37,8 +37,8 @@ tags:
 - API Gateway
 - MCP
 - LLM
-- Agent-to-Agent
-- Open-Source
+- A2A
+- Open Source
 - CNCF
 - Observability
 - Security
@@ -52,6 +52,7 @@ tags_raw:
 - CNCF
 - Observability
 - Security
+- Open-Source
 created: '2026-03-27'
 modified: '2026-08-30'
 specificationVersion: '0.23'
@@ -70,8 +71,14 @@ apis:
     enabling agent-to-agent communication, and applying security and observability controls across AI
     agent infrastructure.
   humanURL: https://agentgateway.dev/
-  baseURL: https://agentgateway.dev
   tags:
+  - AI Gateway
+  - LLM Routing
+  - MCP
+  - A2A
+  - Security
+  - Observability
+  tags_raw:
   - AI Gateway
   - LLM Routing
   - MCP
