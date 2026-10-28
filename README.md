@@ -1,4 +1,4 @@
-# AgentGateway (agentgateway)
+# AgentGateway
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,73 +66,196 @@
 
 AgentGateway is an open-source, AI-native proxy and gateway for routing, observing, and governing traffic to and from AI agents, LLM providers, and MCP servers. Built on the A2A and MCP protocols, it provides a unified gateway for LLM consumption, MCP tool federation, agent-to-agent communication, security, and observability. AgentGateway supports multi-provider LLM routing across OpenAI, Anthropic, Google Gemini, AWS Bedrock, and Azure OpenAI with built-in RBAC, JWT authentication, rate limiting, and OpenTelemetry integration.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/apis.yml)
+**Areas:** AI Gateway · API Gateway · MCP · LLM · A2A · Open Source · CNCF · Observability · Security
 
-## Scope
+## AgentGateway on APIs.io
 
-- **Type:** Index
+Everything profiled for AgentGateway is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/agentgateway/](https://apis.io/providers/agentgateway/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (7)
 
-- AI Gateway
-- API Gateway
-- MCP
-- LLM
-- Agent-to-Agent
-- Open Source
-- CNCF
-- Observability
-- Security
+- [AgentGateway](https://apis.io/apis/agentgateway/agentgateway/) — AgentGateway provides AI-native gateway capabilities for routing LLM traffic, federating MCP tools, enabling agent-to-agent communication, and applying…
+- [AgentGateway Config API](https://apis.io/apis/agentgateway/agentgateway-config-api/) — The Config API from AgentGateway — 1 operation(s) for config.
+- [AgentGateway Debug API](https://apis.io/apis/agentgateway/agentgateway-debug-api/) — The Debug API from AgentGateway — 2 operation(s) for debug.
+- [AgentGateway Lifecycle API](https://apis.io/apis/agentgateway/agentgateway-lifecycle-api/) — The Lifecycle API from AgentGateway — 1 operation(s) for lifecycle.
+- [AgentGateway Logging API](https://apis.io/apis/agentgateway/agentgateway-logging-api/) — The Logging API from AgentGateway — 1 operation(s) for logging.
+- [AgentGateway Memory API](https://apis.io/apis/agentgateway/agentgateway-memory-api/) — The Memory API from AgentGateway — 1 operation(s) for memory.
+- [AgentGateway Profiling API](https://apis.io/apis/agentgateway/agentgateway-profiling-api/) — The Profiling API from AgentGateway — 2 operation(s) for profiling.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-27
-- **Modified:** 2026-04-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### AgentGateway
+Model Context Protocol servers that expose the API to agents.
 
-AgentGateway provides AI-native gateway capabilities for routing LLM traffic, federating MCP tools, enabling agent-to-agent communication, and applying security and observability controls across AI agent infrastructure.
+- [agentgateway-mcp.yml](https://apis.io/servers/agentgateway/agentgateway-mcp-yml/)
 
-- **Human URL:** [https://agentgateway.dev/](https://agentgateway.dev/)
-- **Base URL:** `https://agentgateway.dev`
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- AI Gateway
-- LLM Routing
-- MCP
-- Agent-to-Agent
-- Security
-- Observability
+- [Agentgateway Agentic Access](https://apis.io/agentic-access/agentgateway/agentgateway-agentic-access/)
 
-#### Properties
+#### JSON Schema (4)
 
+The data models the API reads and writes.
+
+- [LocalConfig](https://apis.io/schemas/agentgateway/agentgateway-config/)
+- [LLMBackend](https://apis.io/schemas/agentgateway/agentgateway-llm-backend/)
+- [MCPTarget](https://apis.io/schemas/agentgateway/agentgateway-mcp-target/)
+- [Route](https://apis.io/schemas/agentgateway/agentgateway-route/)
+
+#### JSON Structure (3)
+
+Data models expressed in JSON Structure.
+
+- [Agentgateway Llm Backend Structure](https://apis.io/json-structure/agentgateway/agentgateway-llm-backend-structure/)
+- [Agentgateway Mcp Target Structure](https://apis.io/json-structure/agentgateway/agentgateway-mcp-target-structure/)
+- [Agentgateway Route Structure](https://apis.io/json-structure/agentgateway/agentgateway-route-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Agentgateway Context](https://apis.io/jsonld/agentgateway/agentgateway-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Agentgateway Vocabulary](https://apis.io/vocabularies/agentgateway/agentgateway-vocabulary/)
+
+#### Examples (3)
+
+Example requests and responses.
+
+- [Agentgateway Llm Backend Example](https://apis.io/examples/agentgateway/agentgateway-llm-backend-example/)
+- [Agentgateway Mcp Target Example](https://apis.io/examples/agentgateway/agentgateway-mcp-target-example/)
+- [Agentgateway Route Example](https://apis.io/examples/agentgateway/agentgateway-route-example/)
+
+#### Collections (7)
+
+Postman and Open Collection request collections.
+
+- [AgentGateway Admin / Debug API](https://apis.io/collections/agentgateway/open-agentgateway/)
+- [AgentGateway Admin / Debug Config API](https://apis.io/collections/agentgateway/open-agentgateway-config-api/)
+- [AgentGateway Admin / Config Debug API](https://apis.io/collections/agentgateway/open-agentgateway-debug-api/)
+- [AgentGateway Admin / Debug Config Lifecycle API](https://apis.io/collections/agentgateway/open-agentgateway-lifecycle-api/)
+- [AgentGateway Admin / Debug Config Logging API](https://apis.io/collections/agentgateway/open-agentgateway-logging-api/)
+- [AgentGateway Admin / Debug Config Memory API](https://apis.io/collections/agentgateway/open-agentgateway-memory-api/)
+- [AgentGateway Admin / Debug Config Profiling API](https://apis.io/collections/agentgateway/open-agentgateway-profiling-api/)
+
+#### Overlays (6)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Agentgateway Config Api Overlay](https://apis.io/overlays/agentgateway/agentgateway-config-api-overlay/)
+- [Agentgateway Debug Api Overlay](https://apis.io/overlays/agentgateway/agentgateway-debug-api-overlay/)
+- [Agentgateway Lifecycle Api Overlay](https://apis.io/overlays/agentgateway/agentgateway-lifecycle-api-overlay/)
+- [Agentgateway Logging Api Overlay](https://apis.io/overlays/agentgateway/agentgateway-logging-api-overlay/)
+- [Agentgateway Memory Api Overlay](https://apis.io/overlays/agentgateway/agentgateway-memory-api-overlay/)
+- [Agentgateway Profiling Api Overlay](https://apis.io/overlays/agentgateway/agentgateway-profiling-api-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [AgentGateway — jsonschema rules](https://apis.io/rules/agentgateway/agentgateway-jsonschema-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Agentgateway Authentication](https://apis.io/security/agentgateway/agentgateway-authentication/)
+- [Agentgateway Domain Security](https://apis.io/security/agentgateway/agentgateway-domain-security/)
+- [Agentgateway Vulnerability Disclosure](https://apis.io/security/agentgateway/agentgateway-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Agentgateway Plans Pricing](https://apis.io/plans/agentgateway/agentgateway-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Agentgateway Rate Limits](https://apis.io/rate-limits/agentgateway/agentgateway-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Agentgateway Finops](https://apis.io/finops/agentgateway/agentgateway-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://agentgateway.dev/)
 - [Documentation](https://agentgateway.dev/docs/)
-- [Getting Started](https://agentgateway.dev/docs/quickstart/)
-- [GitHub Repository](https://github.com/agentgateway/agentgateway)
-- [Postman Collection](collections/agentgateway.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/agentgateway.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/agentgateway)
-- [JSON Schema](https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/json-schema/agentgateway-llm-backend-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/json-schema/agentgateway-mcp-target-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/json-schema/agentgateway-route-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/json-ld/agentgateway-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Vocabulary](https://raw.githubusercontent.com/api-evangelist/agentgateway/refs/heads/main/vocabulary/agentgateway-vocabulary.yaml)
-- [Portal](https://agentgateway.dev/)
-- [Documentation](https://agentgateway.dev/docs/)
-- [Getting Started](https://agentgateway.dev/docs/quickstart/)
+- [Getting started](https://agentgateway.dev/docs/quickstart/)
+- [API reference](https://agentgateway.dev/docs/standalone/latest/reference/)
 - [Support](https://discord.gg/y9efgEmppm)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [L L Ms Txt](https://agentgateway.dev/llms.txt)
+- [Blog](https://agentgateway.dev/blog/index.xml)
+- [Security](https://github.com/agentgateway/agentgateway/blob/main/SECURITY.md)
+- [Terms of service](https://lfprojects.org/policies/terms-of-use/)
+- [Privacy policy](https://www.linuxfoundation.org/legal/privacy-policy)
+- [GitHub](https://github.com/agentgateway)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 52.9** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 51.7 |
+| Contract governance | 41.7 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 73.2 |
+| Access clarity | 21.1 |
+
+**Agent readiness 28.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | unknown |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 28.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/agentgateway/](https://apis.io/providers/agentgateway/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for AgentGateway: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/agentgateway/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
